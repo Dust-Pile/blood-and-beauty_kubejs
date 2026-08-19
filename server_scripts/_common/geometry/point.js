@@ -1,5 +1,7 @@
 //priority: 3
 
+// DEPRECIATED: TODO: Use VEC3D or something.
+
 global.PI = 3.141592653
 
 if (global.point == null) {

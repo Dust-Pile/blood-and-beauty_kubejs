@@ -1,3 +1,5 @@
+// DEPRECIATED: TODO: Move to accessories impl. Move to Forge.
+
 //Makes backtanks and jetpacks render when in curios slots
 
 CuriosJSEvents.registerRenderer(event => {

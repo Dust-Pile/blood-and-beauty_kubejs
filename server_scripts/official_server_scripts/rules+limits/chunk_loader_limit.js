@@ -3,10 +3,10 @@
 // For testing
 // delete Utils.server.persistentData.chunk_loader_limit
 
-// Essential Variables
+// ========== Essential Variables ========== //
 const MAXIMUM_LOADED_CHUNKS = 150
 const MAXIMUM_INACTIVE_TIME = 1000*60*60*24*7 //One Week ( Currently Unused )
-const UPDATE_FREQUENCY = 20
+const UPDATE_FREQUENCY = 20 // 1 update / second
 var update_ticker = 0
 var chunkLoaders = {}
 var isLoaded = false
@@ -23,6 +23,10 @@ ServerEvents.loaded( event => {
     isLoaded = true
 })
 
+ServerEvents.unloaded( event => {
+    isLoaded = false  // Reduce log spam for errors
+})
+
 // Add Tags
 var loaderBlocks = [
     'create_power_loader:andesite_chunk_loader',
@@ -34,7 +38,7 @@ ServerEvents.tags( 'block', event => {
     }
 })
 
-// Basic Block Behaviours
+// ========= Basic Block Behaviours ========== //
 for ( var loader of loaderBlocks ) {
     BlockEvents.placed( loader, event => {
         const { block, player } = event
@@ -58,7 +62,7 @@ for ( var loader of loaderBlocks ) {
     })
 }
 
-// Check for station placement / removal
+// ========== Check for station placement / removal ========== //
 BlockEvents.placed( 'create:track_station', event => {
     const { block } = event
 
@@ -107,6 +111,7 @@ BlockEvents.broken( 'create:track_station', event => {
     }
 })
 
+// ========= Update ========== //
 ServerEvents.tick( event => {
     if ( !isLoaded ) {
         return
@@ -160,7 +165,7 @@ ServerEvents.tick( event => {
     } )
 })
 
-// Reset last online
+// ========== Reset last online ========== //
 PlayerEvents.loggedOut( event => {
     const { player } = event
     var playerData = chunkLoaders.players[ player.uuid.toString() ]
@@ -172,7 +177,7 @@ PlayerEvents.loggedIn( event => {
     onPlayerJoined( event.player )
 })
 
-// Registration Functions
+// ========== Registration Functions ========== //
 function registerPlayer( player ) {
     chunkLoaders.players[ player.uuid.toString() ] = {
         loaders: [],
@@ -215,7 +220,7 @@ function unregisterLoader( block ) {
     delete chunkLoaders.loaders[ posString( block ) ]
 }
 
-// Loader Updator Functions
+// ========== Loader Updator Functions ========== //
 function loaderEnabled( block ) {
     const [ blockData, playerData ] = getData( block )
 
@@ -291,7 +296,7 @@ function destroyLoader( block ) {
     unregisterLoader( block )
 }
 
-// Helper Functions
+// ========== Helper Functions ========== //
 function posString( block ) {
     return ('x' + block.x + 'y' + block.y + 'z' + block.z + '_' + block.level.name.string )
 }

@@ -1,3 +1,4 @@
+// DEPRECIATED: TODO: Move to accessories impl. Move to Forge.
 // Set artifacts to only render in specific curios slots.
 
 // Classes

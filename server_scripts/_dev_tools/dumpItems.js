@@ -1,3 +1,5 @@
+// Print list of item ids in inventory to kubejs server log.
+
 ServerEvents.commandRegistry( event => {
     event.register(event.commands.literal('dumpitems') // The name of the command
       .requires(s => s.hasPermission(4))

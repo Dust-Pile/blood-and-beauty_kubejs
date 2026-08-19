@@ -1,5 +1,7 @@
 //priority: 1
 
+// DEPRECIATED: TODO: Implement in forge
+
 const DROPS_COINS_TAG = "DROPS_COINS"
 const BOSSMOB_TAG = "BOSSMOB"
 

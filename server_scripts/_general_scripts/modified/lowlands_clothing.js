@@ -180,6 +180,7 @@ function useSewingItem( event ) {
         event.cancel()
     }
 
+    // TODO: Why not use custom sound?
     var isMainHand = hand.toString().equals( "MAIN_HAND" )
     if ( global.damage( isMainHand ? player.mainHandItem : player.offHandItem, 1, () =>
         { isMainHand ? player.setMainHandItem( Item.of( 'air' ) ) : player.setOffHandItem( Item.of( 'air' ) ) }
