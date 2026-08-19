@@ -1,0 +1,34 @@
+{
+  "type": "forge:add_features",
+  "biomes": [
+    "minecraft:forest",
+    "minecraft:birch_forest",
+    "minecraft:old_growth_birch_forest",
+    "minecraft:grove",
+    "biomesoplenty:mediterranean_forest",
+    "biomesoplenty:mystic_grove",
+    "biomesoplenty:orchard",
+    "biomesoplenty:pumpkin_patch",
+    "biomesoplenty:redwood_forest",
+    "biomesoplenty:seasonal_forest",
+    "biomesoplenty:seasonal_orchard",
+    "biomesoplenty:woodland",
+    "terralith:alpine_grove",
+    "terralith:birch_taiga",
+    "terralith:forested_highlands",
+    "terralith:lush_valley",
+    "terralith:moonlight_grove",
+    "terralith:moonlight_valley",
+    "terralith:sakura_grove",
+    "terralith:sakura_valley",
+    "terralith:shield",
+    "terralith:temperate_highlands",
+    "minecraft:sunflower_plains",
+    "minecraft:plains",
+    "terralith:highlands",
+    "biomesoplenty:prairie"
+
+  ],
+  "features": "meds_and_herbs:artemisia",
+  "step": "vegetal_decoration"
+}

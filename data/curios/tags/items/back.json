@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "remove": [
+        "#elytraslot:elytra",
+        "create_jetpack:jetpack",
+        "create_jetpack:netherite_jetpack"
+    ]
+}

@@ -1,0 +1,38 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made with Blockbench",
+	"textures": {
+		"2": "supplementaries:block/stick",
+		"3": "bloodandbeauty:block/shawarma/dragon_meat_side_2",
+		"particle": "bloodandbeauty:block/shawarma/dragon_meat_top"
+	},
+	"elements": [
+		{
+			"name": "skewer",
+			"from": [7, 0, 7],
+			"to": [9, 16, 9],
+			"faces": {
+				"north": {"uv": [7, 0, 9, 16], "texture": "#2"},
+				"east": {"uv": [7, 0, 9, 16], "texture": "#2"},
+				"south": {"uv": [7, 0, 9, 16], "texture": "#2"},
+				"west": {"uv": [7, 0, 9, 16], "texture": "#2"},
+				"up": {"uv": [0, 0, 2, 2], "texture": "#2", "cullface": "up"},
+				"down": {"uv": [0, 0, 2, 2], "texture": "#2", "cullface": "down"}
+			}
+		},
+		{
+			"name": "meat",
+			"from": [6, 1, 6],
+			"to": [10, 15, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [9, 2, 9]},
+			"faces": {
+				"north": {"uv": [12, 0, 16, 14], "texture": "#3"},
+				"east": {"uv": [12, 0, 16, 14], "texture": "#3"},
+				"south": {"uv": [12, 0, 16, 14], "texture": "#3"},
+				"west": {"uv": [12, 0, 16, 14], "texture": "#3"},
+				"up": {"uv": [7, 0, 11, 4], "texture": "#3"},
+				"down": {"uv": [7, 0, 11, 4], "texture": "#3"}
+			}
+		}
+	]
+}

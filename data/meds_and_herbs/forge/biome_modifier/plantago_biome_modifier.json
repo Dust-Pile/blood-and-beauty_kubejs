@@ -1,0 +1,18 @@
+{
+  "type": "forge:add_features",
+  "biomes": [
+    "bamboo_jungle",
+    "forest",
+    "sunflower_plains",
+    "dark_forest",
+    "plains",
+    "savanna",
+    "birch_forest",
+    "flower_forest",
+    "jungle",
+    "swamp",
+    "cherry_grove"
+  ],
+  "features": "meds_and_herbs:plantago",
+  "step": "vegetal_decoration"
+}

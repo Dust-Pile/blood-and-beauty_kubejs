@@ -1,0 +1,19 @@
+{
+    "entity.bandage" : {
+        "sounds": [
+            "bloodandbeauty:entity/bandage1",
+            "bloodandbeauty:entity/bandage2",
+            "bloodandbeauty:entity/bandage3"
+        ]
+    },
+    "entity.inject": {
+        "sounds": [
+            "bloodandbeauty:entity/inject"
+        ]
+    },
+    "entity.sew": {
+        "sounds": [
+            "bloodandbeauty:entity/sew"
+        ]
+    }
+}

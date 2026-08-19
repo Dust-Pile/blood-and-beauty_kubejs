@@ -1,0 +1,15 @@
+{
+  "type": "forge:add_features",
+  "biomes": [
+    "minecraft:sunflower_plains",
+    "minecraft:plains",
+    "biomesoplenty:prairie",
+    "terralith:highlands",
+    "minecraft:meadow",
+    "minecraft:cherry_grove",
+    "minecraft:flower_forest"
+
+  ],
+  "features": "meds_and_herbs:sweet_clover",
+  "step": "vegetal_decoration"
+}

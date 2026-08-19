@@ -1,0 +1,13 @@
+{
+    "replace": true,
+    "values": [
+        "#elytraslot:elytra",
+        "vc_gliders:paraglider_wood",
+        "vc_gliders:paraglider_iron",
+        "vc_gliders:paraglider_gold",
+        "vc_gliders:paraglider_diamond",
+        "vc_gliders:paraglider_netherite",
+        "create_jetpack:jetpack",
+        "create_jetpack:netherite_jetpack"
+    ]
+}

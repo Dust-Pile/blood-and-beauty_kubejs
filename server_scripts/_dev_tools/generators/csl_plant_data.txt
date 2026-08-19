@@ -1,0 +1,357 @@
+// temps are in F
+
+/*
+    "quark:yellow_blossom_sapling": {
+        "seed": "quark:yellow_blossom_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "hexalia:cottonwood_sapling": {
+        "seed": "hexalia:cottonwood_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "minecraft:jungle_sapling": {
+        "seed": "minecraft:jungle_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "minecraft:oak_sapling": {
+        "seed": "minecraft:oak_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "biomesoplenty:jacaranda_sapling": {
+        "seed": "biomesoplenty:jacaranda_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "minecraft:acacia_sapling": {
+        "seed": "minecraft:acacia_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "upgrade_aquatic:river_sapling": {
+        "seed": "upgrade_aquatic:river_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "biomesoplenty:orange_autumn_sapling": {
+        "seed": "biomesoplenty:orange_autumn_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "quark:lavender_blossom_sapling": {
+        "seed": "quark:lavender_blossom_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "hexerei:willow_sapling": {
+        "seed": "hexerei:willow_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "quark:blue_blossom_sapling": {
+        "seed": "quark:blue_blossom_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "crabbersdelight:palm_sapling": {
+        "seed": "crabbersdelight:palm_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "biomesoplenty:umbran_sapling": {
+        "seed": "biomesoplenty:umbran_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "hexerei:mahogany_sapling": {
+        "seed": "hexerei:mahogany_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "quark:ancient_sapling": {
+        "seed": "quark:ancient_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "vinery:dark_cherry_sapling": {
+        "seed": "vinery:dark_cherry_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "biomesoplenty:yellow_autumn_sapling": {
+        "seed": "biomesoplenty:yellow_autumn_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "biomesoplenty:rainbow_birch_sapling": {
+        "seed": "biomesoplenty:rainbow_birch_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "quark:orange_blossom_sapling": {
+        "seed": "quark:orange_blossom_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "quark:red_blossom_sapling": {
+        "seed": "quark:red_blossom_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "biomesoplenty:fir_sapling": {
+        "seed": "biomesoplenty:fir_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "hexalia:willow_sapling": {
+        "seed": "hexalia:willow_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "biomesoplenty:willow_sapling": {
+        "seed": "biomesoplenty:willow_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "minecraft:spruce_sapling": {
+        "seed": "minecraft:spruce_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "biomesoplenty:redwood_sapling": {
+        "seed": "biomesoplenty:redwood_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "biomesoplenty:magic_sapling": {
+        "seed": "biomesoplenty:magic_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "minecraft:cherry_sapling": {
+        "seed": "minecraft:cherry_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "vinery:apple_tree_sapling": {
+        "seed": "vinery:apple_tree_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "minecraft:birch_sapling": {
+        "seed": "minecraft:birch_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "biomesoplenty:dead_sapling": {
+        "seed": "biomesoplenty:dead_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "biomesoplenty:palm_sapling": {
+        "seed": "biomesoplenty:palm_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "biomesoplenty:maple_sapling": {
+        "seed": "biomesoplenty:maple_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "hexerei:witch_hazel_sapling": {
+        "seed": "hexerei:witch_hazel_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "biomesoplenty:hellbark_sapling": {
+        "seed": "biomesoplenty:hellbark_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "biomesoplenty:origin_sapling": {
+        "seed": "biomesoplenty:origin_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "culturaldelights:avocado_sapling": {
+        "seed": "culturaldelights:avocado_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "biomesoplenty:flowering_oak_sapling": {
+        "seed": "biomesoplenty:flowering_oak_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "biomesoplenty:mahogany_sapling": {
+        "seed": "biomesoplenty:mahogany_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "biomesoplenty:snowblossom_sapling": {
+        "seed": "biomesoplenty:snowblossom_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "minecraft:dark_oak_sapling": {
+        "seed": "minecraft:dark_oak_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    },
+    "deeperdarker:echo_sapling": {
+        "seed": "deeperdarker:echo_sapling",
+        "type": "F",
+        "min": 32,
+        "max": 100
+    }
+        */
+
+/* SEEDS TODO
+"hexalia:mandrake_seeds",
+"hexalia:sunfire_tomato_seeds",
+"hexalia:rabbage_seeds",
+"createcafe:cassava_seeds",
+"createcafe:coffee_beans",
+"minecraft:beetroot_seeds",
+"minecraft:melon_seeds",
+"minecraft:pumpkin_seeds",
+"minecraft:wheat_seeds",
+"hexerei:sage_seed",
+"farmersdelight:cabbage_seeds",
+"farmersdelight:rice",
+"farmersdelight:tomato_seeds",
+"veggiesdelight:bellpepper_seeds",
+"veggiesdelight:broccoli_seeds",
+"veggiesdelight:cauliflower_seeds",
+"veggiesdelight:turnip_seeds",
+"veggiesdelight:zucchini_seeds",
+"culturaldelights:cucumber_seeds",
+"culturaldelights:eggplant_seeds",
+"culturaldelights:corn_kernels",
+"culturaldelights:avocado_pit",
+"vinery:red_grape_seeds",
+"vinery:white_grape_seeds",
+"vinery:savanna_grape_seeds_red",
+"vinery:savanna_grape_seeds_white",
+"vinery:taiga_grape_seeds_red",
+"vinery:taiga_grape_seeds_white",
+"vinery:jungle_grape_seeds_red",
+"vinery:jungle_grape_seeds_white",
+"snowyspirit:ginger_flower",
+"supplementaries:flax_seeds",
+"delightful:salmonberry_pips",
+"delightful:cantaloupe_seeds",
+"farmersrespite:tea_seeds",
+"vintagedelight:oat_seeds",
+"vintagedelight:ghost_pepper_seeds",
+"vintagedelight:cucumber_seeds",
+"hexalia:dreamshroom",
+"hexalia:pale_mushroom",
+"biomesoplenty:glowshroom",
+"biomesoplenty:toadstool",
+"quark:glow_shroom",
+"minecraft:brown_mushroom",
+"minecraft:red_mushroom",
+"minecraft:carrot",
+"minecraft:torchflower_seeds",
+"minecraft:pitcher_pod",
+"farmersdelight:onion",
+"veggiesdelight:garlic_clove",
+"veggiesdelight:sweet_potato",
+"minecraft:warped_fungus",
+"minecraft:crimson_fungus",
+"minecraft:oak_sapling",
+"minecraft:spruce_sapling",
+"minecraft:birch_sapling",
+"minecraft:jungle_sapling",
+"minecraft:acacia_sapling",
+"minecraft:dark_oak_sapling",
+"minecraft:azalea",
+"minecraft:flowering_azalea",
+"minecraft:mangrove_propagule",
+"minecraft:cherry_sapling",
+"hexalia:cottonwood_sapling",
+"hexalia:willow_sapling",
+"biomesoplenty:origin_sapling",
+"biomesoplenty:flowering_oak_sapling",
+"biomesoplenty:snowblossom_sapling",
+"biomesoplenty:rainbow_birch_sapling",
+"biomesoplenty:yellow_autumn_sapling",
+"biomesoplenty:orange_autumn_sapling",
+"biomesoplenty:maple_sapling",
+"biomesoplenty:fir_sapling",
+"biomesoplenty:redwood_sapling",
+"biomesoplenty:mahogany_sapling",
+"biomesoplenty:jacaranda_sapling",
+"biomesoplenty:palm_sapling",
+"biomesoplenty:willow_sapling",
+"biomesoplenty:dead_sapling",
+"biomesoplenty:magic_sapling",
+"biomesoplenty:umbran_sapling",
+"biomesoplenty:hellbark_sapling",
+"vintagedelight:magic_peanut",
+"hexerei:mahogany_sapling",
+"hexerei:willow_sapling",
+"hexerei:witch_hazel_sapling",
+"culturaldelights:avocado_sapling",
+"deeperdarker:echo_sapling",
+"vinery:dark_cherry_sapling",
+"vinery:apple_tree_sapling",
+"upgrade_aquatic:river_sapling",
+"quark:blue_blossom_sapling",
+"quark:lavender_blossom_sapling",
+"quark:orange_blossom_sapling",
+"quark:yellow_blossom_sapling",
+"quark:red_blossom_sapling",
+"quark:ancient_sapling",
+"crabbersdelight:palm_sapling",
+"minecraft:sweet_berries",
+"minecraft:kelp",
+"minecraft:bamboo",
+"minecraft:sugar_cane",
+"minecraft:nether_wart",
+"minecraft:cocoa_beans",
+*/

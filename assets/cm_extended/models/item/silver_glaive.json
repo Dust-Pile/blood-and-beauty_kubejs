@@ -1,0 +1,58 @@
+{
+  "loader": "forge:separate_transforms",
+  "gui_light": "front",
+  "base": {
+      "parent": "bloodandbeauty:block/blank"
+  },
+  "perspectives": {
+    "thirdperson_righthand": {
+        "parent": "minecraft:item/spear_in_hand",
+        "textures": {
+            "layer0": "bloodandbeauty:item/tools/silver/silver_glaive_in_hand"
+        }
+    }, 
+    "thirdperson_lefthand": {
+        "parent": "minecraft:item/spear_in_hand",
+        "textures": {
+            "layer0": "bloodandbeauty:item/tools/silver/silver_glaive_in_hand"
+        }
+    }, 
+    "firstperson_righthand": {
+        "parent": "minecraft:item/spear_in_hand",
+        "textures": {
+            "layer0": "bloodandbeauty:item/tools/silver/silver_glaive_in_hand"
+        }
+    }, 
+    "firstperson_lefthand": {
+        "parent": "minecraft:item/spear_in_hand",
+        "textures": {
+            "layer0": "bloodandbeauty:item/tools/silver/silver_glaive_in_hand"
+        }
+    },
+    "gui": {
+        "parent": "minecraft:item/generated",
+        "textures": {
+            "layer0": "bloodandbeauty:item/tools/silver/silver_glaive"
+        },
+        "gui_light": "front"
+    },
+    "ground": {
+        "parent": "minecraft:item/generated",
+        "textures": {
+            "layer0": "bloodandbeauty:item/tools/silver/silver_glaive"
+        }
+    },
+    "fixed": {
+        "parent": "minecraft:item/generated",
+        "textures": {
+            "layer0": "bloodandbeauty:item/tools/silver/silver_glaive"
+        }
+    },
+    "head": {
+        "parent": "minecraft:item/generated",
+        "textures": {
+            "layer0": "bloodandbeauty:item/tools/silver/silver_glaive"
+        }
+    }
+  }
+}

@@ -1,0 +1,299 @@
+// Essential Variables
+if ( Utils.server.persistentData.chunk_loader_limit == undefined ) {
+    Utils.server.persistentData.chunk_loader_limit = {
+        players: {},
+        loaders: {},
+    }
+}
+
+const MAXIMUM_LOADED_CHUNKS = 200
+const MAXIMUM_INACTIVE_TIME = 1000*60*60*24*7 //One Week
+const UPDATE_FREQUENCY = 20
+var update_ticker = 0
+var chunkLoaders = Utils.server.persistentData.chunk_loader_limit
+
+// Add Tags
+var loaderBlocks = [
+    'create_power_loader:andesite_chunk_loader',
+    'create_power_loader:brass_chunk_loader'
+]
+ServerEvents.tags( 'block', event => {
+    for ( var loader of loaderBlocks ) {
+        event.add( 'bloodandbeauty:chunk_loaders', loader )
+    }
+})
+
+// Basic Block Behaviours
+for ( var loader of loaderBlocks ) {
+    BlockEvents.placed( loader, event => {
+        const { block, player } = event
+
+        if ( player == undefined ) { // cancel if not player
+            event.cancel()
+        }
+
+        registerLoader( block, player )
+    })
+
+    BlockEvents.broken( loader, event => {
+        const { block, player } = event
+
+        blockData = chunkLoaders.loaders[ posString( block ) ]
+        if ( blockData.active ) {
+            loaderDisabled( block )
+        }
+
+        unregisterLoader( block )
+    })
+}
+
+ServerEvents.tick( event => {
+    update_ticker++
+    if ( update_ticker % UPDATE_FREQUENCY != 0 ) {
+        return
+    }
+
+    forEachIn()
+})
+
+// Reset last online
+PlayerEvents.loggedOut( event => {
+    const { player } = event
+    var playerData = chunkLoaders.players[ player.uuid.toString() ]
+    if ( playerData != undefined ) {
+        playerData.lastOnline = Date.now().valueOf()
+    }
+})
+PlayerEvents.loggedIn( event => {
+    const { player } = event
+    var playerData = chunkLoaders.players[ player.uuid.toString() ]
+    if ( playerData != undefined ) {
+        playerData.lastOnline = Date.now().valueOf()
+    }
+})
+
+// Managing Functions
+function registerPlayer( player ) {
+    chunkLoaders.players[ player.uuid.toString() ] = {
+        loaders: [],
+        loadedChunks: 0,
+        lastOnline: Date.now().valueOf(),
+        username: player.username
+    }
+}
+function registerLoader( block, player ) {
+    var playerData = chunkLoaders.players[ player.uuid.toString() ]
+    if ( playerData == undefined ) {
+        registerPlayer( player )
+    }
+
+    playerData.loaders.push( posString( block ) )
+
+    chunkLoaders.loaders[ posString( block ) ] = {
+        owner: player.uuid.toString(),
+        active: false,
+        type: block.id,
+        range: 0,
+        position: {
+            x: block.x,
+            y: block.y,
+            z: block.z
+        },
+        overlaps: [],
+        effectiveAreaCache: 1,
+        cacheValid: false
+    }
+
+    registerOverlaps( block )
+}
+function unregisterLoader( block ) {
+    var blockData = chunkLoaders.loaders[ posString( block ) ]
+    var playerData = chunkLoaders.players[ blockData.owner ]
+
+    // Remove Overlap Refs
+    for ( var loader of blockData.overlaps ) {
+        global.removeElement( chunkLoaders.loaders[ loader ], posString( block ) )
+    }
+
+    global.removeElement( playerData.loaders, posString( block ) )
+    delete chunkLoaders.loaders[ posString( block ) ]
+}
+function disableLoader( block ) {
+    var blockData = chunkLoaders.loaders[ posString( block ) ]
+    if ( blockData == undefined ) {
+        console.error( 'Attempted to reset block at ' + posString( block ) + ': Not registered.' )
+        return
+    }
+    if ( !blockData.active ) {
+        console.error( 'Attempting to disable chunk loader ' + posString( block ) + ': Not Active.' )
+        return
+    }
+
+    const { x, y, z } = block
+    var loc = global.new.point( x, y, z )
+
+    // Break create network
+    global.run( 'data modify block ' + loc.toCommandString() + ' Network.Size set value 0' )
+
+    notifyPlayer( chunkLoaders.players[ block.owner ].username )
+    loaderDisabled( block )
+}
+function registerOverlaps( block ) {
+    // Get Data Paths
+    var blockData = chunkLoaders.loaders[ posString( block ) ]
+    var playerData = chunkLoaders.players[ blockData.owner ]
+
+    // Determine chunk
+    var aChunk = chunk( block.x, block.z )
+    var thisLoc = global.new.point( aChunk.x, 0, aChunk.z )
+    // Check all player loaders
+    for ( var loader of playerData.loaders ) {
+        // Get Data of other loader
+        var secondBlockData = chunkLoaders.loaders[ loader ]
+        const { x: xs, z: zs } = secondBlockData.position
+        aChunk = chunk( xs, zs )
+
+        // Determine Intersection
+        var chunkDist = thisLoc.distanceCardinal( global.new.point( aChunk.x, 0, aChunk.z ) )
+        var maxDist = maxRange( blockData.type ) + maxRange( secondBlockData.type )
+        if ( maxDist >= chunkDist.x || maxDist >= chunkDist.z ) {
+            blockData.overlaps.push( loader )
+            secondBlockData.overlaps.push( posString( block ) )
+            secondBlockData.cacheValid = false
+        }
+    }
+}
+
+// Updator Functions
+function loaderEnabled( block ) {
+    var blockData = chunkLoaders.loaders[ posString( block ) ]
+    var playerData = chunkLoaders.players[ blockData.owner ]
+
+    updateOverlaps( playerData )
+
+    playerData.loadedChunks += effectiveArea( blockData )
+    blockData.active = true
+}
+function loaderDisabled( block ) {
+    blockData = chunkLoaders.loaders[ posString( block ) ]
+    playerData = chunkLoaders.players[ blockData.owner ]
+
+    updateOverlaps( playerData )
+
+    playerData.loadedChunks -= effectiveArea( blockData )
+    blockData.active = false
+}
+function effectiveArea( blockData ) {
+    if ( blockData.cacheValid ) {
+        return blockData.effectiveAreaCache
+    }
+
+    var sideLength = SIDE_LENGTH[ blockData.range ]
+
+    var field = []
+    for ( var i = 0; i < sideLength; i++ ) {
+        field.push( [] )
+        for ( var j = 0; j < sideLength; j++ ) {
+            field[i].push( true )
+        }
+    }
+
+    var aChunk = chunk( block.x, block.z )
+    var thisLoc = global.new.point( aChunk.x, 0, aChunk.z )
+    for ( var loader of blockData.overlaps ) {
+        var overlapLoader = chunkLoaders.loaders[ loader ]
+        if ( !overlapLoader.active ) {
+            continue
+        }
+
+        const { x: xs, z: zs } = secondBlockData.position
+        aChunk = chunk( xs, zs )
+
+        var chunkDist = thisLoc.distanceCardinal( global.new.point( aChunk.x, 0, aChunk.z ) )
+        var maxDist = blockData.range + overlapLoader.range
+        if ( maxDist < chunkDist.x && maxDist < chunkDist.z ) {
+            continue
+        }
+
+        //for ( var i = )
+    }
+
+}
+function updateOverlaps( playerData ) {
+    for ( var loader of playerData.loaders ) {
+        chunkLoaders.loaders[ loader ].cacheValid = false
+    }
+}
+
+// Block Update Behavior
+global.addListener(
+    'net.minecraftforge.event.level.BlockEvent$NeighborNotifyEvent',
+    'chunk_loader_updator',
+    event => {
+
+    }
+)
+
+// Potentially a block update event? (That'd be so nice...)
+// ForgeEvents.onEvent( 'net.minecraftforge.event.level.BlockEvent$NeighborNotifyEvent', event => {
+//     const { notifiedSides, pos, level: initialLevel, state } = event
+//     const { x, y, z } = pos
+
+//     var loaderData = chunkLoaders.loaders[ posString( pos ) ]
+//     if ( loaderData == undefined ) {
+//         global.say( 'Unregistered Position' )
+//         return
+//     }
+
+//     if ( !notifiedSides.contains( state.facing.opposite ) ) {
+//         global.say( 'Wrong Face' )
+//         return
+//     }
+
+//     var level = Utils.server.getLevel( initialLevel.name )
+//     var block = level.getBlock( x, y, z )
+//     // var blockState = global.blockState.get( block )
+
+
+// })
+
+// BlockEvents.modification( event => {
+//     event.modify( 'create_power_loader:brass_chunk_loader', block => {
+//         block.getSettings()
+//     })
+// })
+
+// Helper Function
+function posString( pos ) {
+    return 'x' + pos.x + 'y' + pos.y + 'z' + pos.z
+}
+function chunk( x, z ) {
+    return { x: Math.floor( x / 16 ), z: Math.floor( z / 16 ) }
+}
+function notifyPlayer( username ) {
+
+}
+function maxRange( id ) {
+    if ( id.equals( 'create_power_loader:andesite_chunk_loader' ) ) {
+        return 0
+    } else {
+        return 2
+    }
+}
+
+// Data
+const AREA = [
+    1,
+    9,
+    25
+]
+
+const SIDE_LENGTH = [
+    1,
+    3,
+    5
+]
+
+// blockData.active = false
+// var size = AREA[ blockData.range ]
+// var playerData = chunkLoaders.players[ blockData.owner ]

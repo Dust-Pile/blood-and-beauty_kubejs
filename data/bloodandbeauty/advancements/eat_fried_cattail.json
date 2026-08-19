@@ -1,0 +1,26 @@
+{
+    "display": {
+      "icon": {
+        "item": "bloodandbeauty:fried_cattail_stalk"
+      },
+      "title": "Plant Corndog Delight!",
+      "description": "Water Twinkie Nice UwU",
+      "frame": "challenge",
+      "show_toast": true,
+      "announce_to_chat": true,
+      "hidden": true
+    },
+    "parent": "bloodandbeauty:eat_cattail",
+    "criteria": {
+      "eat_cattail_stalk": {
+        "trigger": "minecraft:consume_item",
+        "conditions": {
+          "item": {
+            "items": [
+              "bloodandbeauty:fried_cattail_stalk"
+            ]
+          }
+        }
+      }
+    }
+  }

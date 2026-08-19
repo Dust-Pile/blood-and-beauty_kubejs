@@ -1,0 +1,505 @@
+BlockEvents.rightClicked( event => {
+    const { block, player, item, facing, level } = event
+    
+    if ( !block.hasTag('bloodandbeauty:foliage_slabs') || facing != Direction.UP || !item.hasTag('bloodandbeauty:placeable_on_slab') ) {
+        return
+    }
+    const { x, y, z } = block
+    var blockAbove = level.getBlock( x, y+1, z )
+    if ( !blockAbove.hasTag('minecraft:air') || block.properties.type != 'bottom' ) {
+        return
+    }
+
+    var loc = global.new.point(x, y, z)
+    if ( global.run('execute positioned ' + loc.toCommandString() + ' positioned ~ ~0.5 ~ if entity @e[tag=SlabBlock,distance=..0.5]') > 0 ) {
+        event.cancel()
+        return
+    }
+    if ( !contextHandler( block, item ) ) {
+        return
+    }
+
+    //Figure out which hand they're using (normal function no worky)
+    var hand = 'main_hand'
+    if ( !player.mainHandItem.id.equals(item.id) ) {
+        hand = 'off_hand'
+    }
+
+    //Enact
+    if ( placeSlabBlock( item, loc, level, player.horizontalFacing.opposite.toString() ) ) {
+        useExpendable( player, hand )
+    }
+    
+    event.cancel()
+})
+
+function useExpendable( player, hand ) {
+    player.swing(hand, true)
+    //Remove player items
+    if ( player.nbt.playerGameType != 1 ) {
+        if ( hand.equals('main_hand')) {
+            player.getMainHandItem().shrink(1)
+        } else {
+            player.getOffHandItem().shrink(1)
+        }
+    }
+}
+/**
+ * @param {Internal.ItemStack} item 
+ * @param {Object} loc 
+ * @param {Internal.Level} level 
+ * @param {Boolean} isBreaking 
+ */
+function playItemSound( item, loc, level, isBreaking ) {
+    var sound = 'place'
+    if ( isBreaking ) {
+        sound = 'break'
+    }
+    if ( item.hasTag('bloodandbeauty:petallike') ) {
+        global.run('execute in ' + level.name.string + ' run playsound minecraft:block.pink_petals.'+sound+' block @a ' + loc.toCommandString())
+    } else if ( item.hasTag('bloodandbeauty:bone_meal_like') ) {
+        global.run('execute in ' + level.name.string + ' run playsound minecraft:item.bone_meal.use block @a ' + loc.toCommandString())
+    } else {
+        global.run('execute in ' + level.name.string + ' run playsound minecraft:block.grass.'+sound+' block @a ' + loc.toCommandString())
+    }
+}
+
+//Filter
+function contextHandler( block, item ) {
+    if ( block.properties.waterlogged == true ) {
+        if ( !item.hasTag('bloodandbeauty:placeable_on_waterlogged') ) {
+            return false
+        }
+    } else {
+        if ( item.hasTag('bloodandbeauty:requires_waterlogged') ) {
+            return false
+        }
+    }
+    if ( item.hasTag('bloodandbeauty:placeable_on_any') ) {
+        return true
+    }
+    if ( block.hasTag('bloodandbeauty:dirtlike_slabs') ) {
+        if ( item.hasTag('bloodandbeauty:placeable_on_dirtlike') ) {
+            return true
+        }
+        return false
+    }
+    return false
+}
+//TODO: implement random offset
+function placeSlabBlock( item, loc, level, direction ) {
+    var blockId = item.id
+    var sizeString = getSize( item )
+    if ( item.hasTag('bloodandbeauty:tall_foliage') ) {
+        global.run([
+            'execute in ' + level.name.string + ' positioned ' + loc.toCommandString() + ' run summon minecraft:interaction ~ ~0.5 ~ {Tags:["SlabBlock","sbDouble"],'+sizeString+'}',
+            'execute in ' + level.name.string + ' positioned ' + loc.toCommandString() + ' run summon minecraft:block_display ~-0.5 ~0.5 ~-0.5 {block_state:{Name:"'+blockId+'"}, Tags:["SlabBlock"]}',
+            'execute in ' + level.name.string + ' positioned ' + loc.toCommandString() + ' run summon minecraft:block_display ~-0.5 ~1.5 ~-0.5 {block_state:{Name:"'+blockId+'",Properties:{"half":"upper"}}, Tags:["SlabBlock"]}'
+        ])
+    } else {
+        global.run(
+            'execute in ' + level.name.string + ' positioned ' + loc.toCommandString() + ' run summon minecraft:interaction ~ ~0.5 ~ {Tags:["SlabBlock"],'+sizeString+'}'
+        )
+        if ( global.run(
+            'execute in ' + level.name.string + ' positioned ' + loc.toCommandString() + ' run summon minecraft:block_display ~-0.5 ~0.5 ~-0.5 {block_state:{Name:"'+blockId+'",Properties:{"facing":'+direction+'}}, Tags:["SlabBlock"]}'
+            ) == 0
+        ) {
+            global.run('execute in ' + level.name.string + ' positioned ' + loc.toCommandString() + ' run summon minecraft:block_display ~-0.5 ~0.5 ~-0.5 {block_state:{Name:"'+blockId+'"}, Tags:["SlabBlock"]}')
+        }
+    }
+    playItemSound( item, loc, level, false )
+
+    return true
+}
+//TODO: Implement Tags
+function getSize( item ) {
+    if ( item.hasTag('bloodandbeauty:tall_foliage') ) {
+        return '"width":1, "height":2' //double
+    }
+    if ( item.hasTag('bloodandbeauty:petallike') ) {
+        return '"width":1, "height":0.125' //flat
+    }
+    if ( item.hasTag('minecraft:small_flowers')) {
+        return '"width":0.375, "height":0.625' //small
+    }
+    return '"width":0.75, "height":0.75' //medium
+    //switch (size) {
+    //     case 'full':
+    //         sizeString = '"width":1, "height":1'
+    //         break
+    //     case 'tiny':
+    //         sizeString = '"width":0.375, "height":0.375'
+    //         break
+    // }
+}
+
+PlayerEvents.advancement( 'bloodandbeauty:interaction_r', event => {
+    global.run('advancement revoke ' + event.player.username + ' only bloodandbeauty:interaction_r')
+    const { player, level } = event
+
+    //Get target entity (the interaction)
+    var reach = player.getReachDistance()
+    var ray = player.rayTrace( reach + (player.nbt.playerGameType == 1 ? 3 : 0) )
+    const { entity: target } = ray
+    if ( target == null ) {
+        return
+    }
+
+    const { x: tx, y: ty, z: tz } = target
+    var block_display = getSlabBlock( target, level )
+    var blockId = block_display.nbt.block_state.Name
+    var loc = global.new.point( tx, ty, tz )
+
+    if ( Item.of( blockId ).hasTag('bloodandbeauty:petallike') ) {
+        var matchingHand = getMatchingItemHand( player, blockId )
+        
+        if ( matchingHand != '' ) {
+            if ( addFlower( block_display ) ) {
+                useExpendable( player, matchingHand, loc, blockId )
+                playItemSound( Item.of(blockId), loc, level, false )
+            }
+            return
+        } 
+    }
+    var boneMealHand = getBoneMealHand( player )
+    if ( boneMealHand != '' ) {
+        if ( fertilize( block_display, player, level.getBlock( Math.floor(tx), Math.floor(ty), Math.floor(tz) ) ) ) {
+            useExpendable( player, boneMealHand, loc, null )
+            playItemSound( boneMealHand.equals('main_hand') ? player.mainHandItem : player.offhandItem, loc, level, isBreaking )
+        }
+        return
+    }
+    //global.say('Right Mouse')
+})
+
+function getMatchingItemHand( player, itemId ) {
+    if ( player.mainHandItem.id.equals( itemId ) ) {
+        return 'main_hand'
+    }
+    if ( player.offHandItem.id.equals( itemId ) ) {
+        return 'off_hand'
+    }
+    return ''
+}
+function getBoneMealHand( player ) {
+    if ( player.mainHandItem.hasTag('bloodandbeauty:bone_meal_like') ) {
+        return 'main_hand'
+    }
+    if ( player.offHandItem.hasTag('bloodandbeauty:bone_meal_like') ) {
+        return 'off_hand'
+    }
+    return ''
+}
+function fertilize( block_display, player, block ) {
+    const { x, y, z } = block
+    var loc = global.new.point(x, y+0.55, z)
+    var blockId = block_display.nbt.block_state.Name
+    var hand = getBoneMealHand( player )
+    var item = hand.equals('main_hand') ? player.mainHandItem : player.offHandItem
+    if ( Item.of(blockId).hasTag('bloodandbeauty:petallike') ) {
+        if ( item.id.equals('minecraft:bone_meal') ) {
+            if ( !addFlower( block_display ) ) {
+                block.popItem( Item.of( blockId ) )
+            }
+        } else {
+            for (var i = 0; i < 3; i++ ) {
+                if ( !addFlower( block_display )) {
+                    block.popItem( Item.of( blockId ) )
+                }
+            }
+        }
+        global.run( 'particle minecraft:happy_villager '+loc.toCommandString()+' 0.3 0.1 0.3 0.1 20' )
+        return true
+    }
+    return false
+}
+function addFlower( block_display ) {
+    var nbt = block_display.nbt
+    var Properties = nbt.block_state.Properties
+    var flower_amount = parseInt(Properties.flower_amount) + 1
+    if ( flower_amount > 4 ) {
+        return false
+    }
+    Properties.flower_amount = "" + flower_amount
+    block_display.setNbt( nbt )
+    return true
+}
+
+PlayerEvents.advancement( 'bloodandbeauty:interaction_l', event => {
+    //Setup. Important to revoke triggering advancement
+    global.run( 'advancement revoke ' + event.player.username + ' only bloodandbeauty:interaction_l')
+    const { player, level } = event
+    const { x, y, z } = player
+    const { x: rx, y: ry, z: rz } = player.lookAngle
+
+    //Get target entity (the interaction)
+    var reach = player.getReachDistance()
+    var ray = player.rayTrace( reach + (player.nbt.playerGameType == 1 ? 3 : 0) )
+    const { entity: target, distance } = ray
+    if ( target == null ) {
+        return
+    }
+
+    //TODO: Determine if an entity is behind the plant (swing through grass)
+
+    //Determine blockId
+    var block_display = getSlabBlock( target, level )
+
+    //Remove Block
+    //Loot
+    removeSlabBlock( block_display, target, player )
+
+})
+
+function getSlabBlock( target, level ) {
+    const { x: tx, y: ty, z: tz } = target
+
+    var area = AABB.of(tx-0.5-0.01, ty-0.01, tz-0.5-0.01, tx-0.5+0.01, ty+0.01, tz-0.5+0.01)
+    var entities = level.getEntitiesWithin(area)
+    var i
+    for ( i = 0; i < entities.size(); i++ ) {
+        var nbt = entities[i].nbt
+        if ( nbt.block_state == null || !global.find( entities[i].nbt.Tags, (list, i) => { return list[i].equals("SlabBlock") } ) ) {
+            continue
+        }
+        return entities[i]
+    }
+    if ( i == entities.size() ) {
+        return ''
+    }
+}
+function lootSlabBlock( block_display, target, player ) {
+    var blockId = block_display.nbt.block_state.Name
+    const { x: tx, y: ty, z: tz } = target
+    var loc = global.new.point(tx, ty, tz)
+    var stateString = '['
+    var properties = block_display.nbt.block_state.Properties
+    if ( properties != undefined ) {
+        var keys = Object.keys( properties )
+        stateString += ( keys.length > 0 ) ? ("" + keys[0] + '=' + properties[keys[0]]) : ''
+        for (var i = 1; i < keys.length; i++ ) {
+            stateString += ',' + keys[i] + '=' + properties[keys[i]]
+        }
+    }
+    stateString += ']'
+
+    if ( player != null ) {
+        //Damage Tool
+        if ( player.getMainHandItem().hasTag('bloodandbeauty:tools') ) {
+            player.mainHandItem.damageValue++
+        }
+        if ( player.nbt.playerGameType != 1) {
+            //Loot (hacky, ik)
+            global.run([
+                'execute positioned ' + loc.toCommandString() + ' run setblock ~ ~1 ~ ' + blockId + stateString + ' destroy',
+                'execute as ' + player.username + ' positioned ' + loc.toCommandString() + ' run loot spawn ~ ~0.2 ~ mine ~ ~1 ~ mainhand',
+                'execute positioned ' + loc.toCommandString() + ' run setblock ~ ~1 ~ minecraft:air replace'
+            ])
+        }
+    } else {
+        global.run([
+            'execute positioned ' + loc.toCommandString() + ' run setblock ~ ~1 ~ ' + blockId + stateString + ' destroy',
+            'execute positioned ' + loc.toCommandString() + ' run loot spawn ~ ~0.2 ~ mine ~ ~1 ~ stick',
+            'execute positioned ' + loc.toCommandString() + ' run setblock ~ ~1 ~ minecraft:air replace'
+        ])
+    }
+    
+}
+function removeSlabBlock( block_display, target, player ) {
+    var blockId = block_display.nbt.block_state.Name
+    const { x: tx, y: ty, z: tz } = target
+    var loc = global.new.point(tx, ty, tz)
+
+    lootSlabBlock( block_display, target, player )
+
+    //Particles + Sound
+    global.run([
+        'execute positioned ' + loc.toCommandString() + ' run particle minecraft:block ' + blockId + ' ~ ~0.2 ~ 0.3 0.3 0.3 0 45'
+    ])
+    if ( global.find( target.nbt.Tags, ( list, i ) => { return list[i].equals("sbDouble") }) ) {
+        global.run([
+            'execute positioned ' + loc.toCommandString() + ' run particle minecraft:block ' + blockId + '[half=upper] ~ ~1.2 ~ 0.3 0.3 0.3 0 45',
+            'execute positioned ' + loc.toCommandString() + ' positioned ~-0.5 ~1 ~-0.5 run kill @e[tag=SlabBlock,distance=..0.01,limit=1]'
+        ])
+    }
+    //Remove entities
+    global.run([
+        'execute positioned ' + loc.toCommandString() + ' run kill @e[tag=SlabBlock,distance=..0.01,limit=1]',
+        'execute positioned ' + loc.toCommandString() + ' positioned ~-0.5 ~ ~-0.5 run kill @e[tag=SlabBlock,distance=..0.01,limit=1]'
+    ])
+    playItemSound( Item.of( blockId ), loc, player.level, true )
+}
+
+BlockEvents.placed( event => {
+    const { block } = event
+
+    if ( block.down.hasTag('bloodandbeauty:foliage_slabs') ) {
+        const { x, y, z } = block
+        var loc = global.new.point(x, y-1, z)
+        if ( global.run('execute positioned ' + loc.toCommandString() + ' positioned ~ ~0.5 ~ if entity @e[tag=SlabBlock,distance=..0.5]') > 0 ) {
+            event.cancel()
+            return
+        }
+    }
+})
+
+BlockEvents.broken( event => {
+    const { block, level } = event
+
+    if ( !block.hasTag( 'bloodandbeauty:foliage_slabs' ) ) {
+        return
+    }
+    const { x, y, z } = block
+    var size = 0.2
+    var area = AABB.of( x+size+0.5, y+size+0.5, z+size+0.5, x-size+0.5, y-size+0.5, z-size+0.5 )
+    var entities = level.getEntitiesWithin( area )
+    for ( var i = 0; i < entities.size(); i++ ) {
+        if (entities[i].type.equals('minecraft:interaction') && global.find( entities[i].nbt.Tags, (list, i) => { return list[i].equals("SlabBlock") }) ) {
+            var target = entities[i]
+            var block_display = getSlabBlock( target, level )
+            removeSlabBlock( block_display, target, null )
+            return
+        }
+    }
+    
+})
+
+PlayerEvents.loggedIn( event => {
+    global.run('advancement revoke ' + event.player.username + ' only bloodandbeauty:interaction_l')
+    global.run('advancement revoke ' + event.player.username + ' only bloodandbeauty:interaction_r')
+})
+
+ServerEvents.recipes( event => {
+    event.remove({ mod: "terrainslabs" })
+
+})
+
+LootJS.modifiers( event => {
+    //Replace with Vinery
+    event.addBlockLootModifier('terrainslabs:grass_slab').replaceLoot('terrainslabs:grass_slab', 'vinery:grass_slab')
+    event.addBlockLootModifier('terrainslabs:dirt_slab').replaceLoot('terrainslabs:dirt_slab', 'vinery:dirt_slab')
+    event.addBlockLootModifier('terrainslabs:coarse_slab').replaceLoot('terrainslabs:coarse_slab', 'vinery:coarse_dirt_slab')
+    event.addBlockLootModifier('terrainslabs:path_slab').replaceLoot('terrainslabs:path_slab', 'vinery:dirt_path_slab')
+
+    //Replace with vanilla / other
+    //Sandstone
+    event.addBlockLootModifier('terrainslabs:terrain_sandstone_slab').replaceLoot('terrainslabs:terrain_sandstone_slab', 'minecraft:sandstone_slab')
+    event.addBlockLootModifier('terrainslabs:terrain_red_sandstone_slab').replaceLoot('terrainslabs:terrain_red_sandstone_slab', 'minecraft:red_sandstone_slab')
+    //Blackstone
+    event.addBlockLootModifier('terrainslabs:terrain_blackstone_slab').replaceLoot('terrainslabs:terrain_blackstone_slab', 'minecraft:blackstone_slab')
+    //Cave
+    event.addBlockLootModifier('terrainslabs:terrain_stone_slab').replaceLoot('terrainslabs:terrain_stone_slab', 'minecraft:stone_slab')
+    event.addBlockLootModifier('terrainslabs:terrain_andesite_slab').replaceLoot('terrainslabs:terrain_andesite_slab', 'minecraft:andesite_slab')
+    event.addBlockLootModifier('terrainslabs:terrain_diorite_slab').replaceLoot('terrainslabs:terrain_diorite_slab', 'minecraft:diorite_slab')
+    event.addBlockLootModifier('terrainslabs:terrain_granite_slab').replaceLoot('terrainslabs:terrain_granite_slab', 'minecraft:granite_slab')
+    event.addBlockLootModifier('terrainslabs:terrain_tuff_slab').replaceLoot('terrainslabs:terrain_tuff_slab', 'quark:tuff_slab')
+
+    //mud
+    event.addBlockLootModifier('terrainslabs:mud_slab').replaceLoot('terrainslabs:mud_slab', 'swampier_swamps:mud_slab')
+
+})
+
+ServerEvents.tags( 'item', event => {
+    //Broad placeable catagory
+    event.add('bloodandbeauty:placeable_on_slab', '#bloodandbeauty:placeable_on_dirtlike')
+    event.add('bloodandbeauty:placeable_on_slab', '#bloodandbeauty:placeable_on_any')
+
+    //Block allowance catagories
+        //Allowed on dirt-like
+    event.add('bloodandbeauty:placeable_on_dirtlike', '#minecraft:flowers')
+    event.add('bloodandbeauty:placeable_on_dirtlike', /.*sapling/)
+    event.add('bloodandbeauty:placeable_on_dirtlike', 'biomesoplenty:bush')
+    event.add('bloodandbeauty:placeable_on_dirtlike', 'biomesoplenty:sprout')
+    event.add('bloodandbeauty:placeable_on_dirtlike', 'projectvibrantjourneys:short_grass')
+    event.add('bloodandbeauty:placeable_on_dirtlike', 'minecraft:tall_grass')
+    event.add('bloodandbeauty:placeable_on_dirtlike', 'minecraft:short_grass')
+    event.add('bloodandbeauty:placeable_on_dirtlike', 'minecraft:tall_fern')
+    event.add('bloodandbeauty:placeable_on_dirtlike', 'biomesoplenty:barley')
+    event.add('bloodandbeauty:placeable_on_dirtlike', 'minecraft:bamboo')
+    event.add('bloodandbeauty:placeable_on_dirtlike', 'immersive_weathering:frosty_fern')
+    event.add('bloodandbeauty:placeable_on_dirtlike', 'immersive_weathering:frosty_grass')
+    event.add('bloodandbeauty:placeable_on_dirtlike', 'pineapple_delight:pineapple_wild_crop')
+    event.add('bloodandbeauty:placeable_on_dirtlike', /.*:wild_.*/)
+    event.remove('bloodandbeauty:placeable_on_dirtlike', 'farmersrespite:wild_coffee_bush')
+    event.remove('bloodandbeauty:placeable_on_dirtlike', 'delightful:wild_salmonberries')
+    event.add('bloodandbeauty:placeable_on_dirtlike', 'biomesoplenty:reed')
+    event.add('bloodandbeauty:placeable_on_dirtlike', 'biomesoplenty:watergrass')
+    event.add('bloodandbeauty:placeable_on_dirtlike', 'projectvibrantjourneys:watergrass')
+    event.add('bloodandbeauty:placeable_on_dirtlike', 'projectvibrantjourneys:reeds')
+    event.add('bloodandbeauty:placeable_on_dirtlike', 'projectvibrantjourneys:cattail')
+        //Allowed on Any
+    event.add('bloodandbeauty:placeable_on_any', '#bloodandbeauty:petallike')
+    event.add('bloodandbeauty:placeable_on_any', /projectvibrantjourneys:.*rocks/)
+    event.add('bloodandbeauty:placeable_on_any', /projectvibrantjourneys:.*bones/)
+    event.add('bloodandbeauty:placeable_on_any', /projectvibrantjourneys:.*fallen_leaves/)
+    event.add('bloodandbeauty:placeable_on_any', /.*seashells/)
+    event.add('bloodandbeauty:placeable_on_any', 'projectvibrantjourneys:twigs')
+    event.add('bloodandbeauty:placeable_on_any', 'projectvibrantjourneys:pinecones')
+    event.add('bloodandbeauty:placeable_on_any', 'projectvibrantjourneys:ice_chunks')
+    event.add('bloodandbeauty:placeable_on_any', 'projectvibrantjourneys:fulgurite')
+
+    
+    //Waterlogging
+    event.add('bloodandbeauty:requires_waterlogged', 'upgrade_aquatic:flowering_rush')
+    event.add('bloodandbeauty:requires_waterlogged', 'biomesoplenty:reed')
+    event.add('bloodandbeauty:requires_waterlogged', 'biomesoplenty:watergrass')
+    event.add('bloodandbeauty:requires_waterlogged', 'projectvibrantjourneys:watergrass')
+    event.add('bloodandbeauty:requires_waterlogged', 'projectvibrantjourneys:reeds')
+    event.add('bloodandbeauty:requires_waterlogged', 'projectvibrantjourneys:cattail')
+    event.add('bloodandbeauty:requires_waterlogged', 'farmersdelight:wild_rice')
+    
+        //allows waterlogged
+    event.add('bloodandbeauty:placeable_on_waterlogged', '#bloodandbeauty:requires_waterlogged')
+    event.add('bloodandbeauty:placeable_on_waterlogged', 'minecraft:sea_pickle')
+
+    
+    
+    //Tall
+    event.add('bloodandbeauty:tall_foliage', '#minecraft:tall_flowers')
+    event.add('bloodandbeauty:tall_foliage', 'minecraft:tall_grass')
+    event.add('bloodandbeauty:tall_foliage', 'minecraft:tall_fern')
+    event.add('bloodandbeauty:tall_foliage', 'upgrade_aquatic:flowering_rush')
+    event.add('bloodandbeauty:tall_foliage', 'biomesoplenty:reed')
+    event.add('bloodandbeauty:tall_foliage', 'biomesoplenty:watergrass')
+    event.add('bloodandbeauty:tall_foliage', 'projectvibrantjourneys:watergrass')
+    event.add('bloodandbeauty:tall_foliage', 'projectvibrantjourneys:reeds')
+    event.add('bloodandbeauty:tall_foliage', 'projectvibrantjourneys:cattail')
+    //Petal-like
+    event.add('bloodandbeauty:petallike', /projectvibrantjourneys:.*wildflowers/)
+    event.add('bloodandbeauty:petallike', /.*_petals/)
+    event.add('bloodandbeauty:petallike', 'biomesoplenty:clover')
+    event.add('bloodandbeauty:petallike', 'projectvibrantjourneys:sandy_sprouts')
+    //event.add('bloodandbeauty:petallike', 'minecraft:sea_pickle')
+
+    //Bonemeallike
+    event.add('bloodandbeauty:bone_meal_like', 'vintagedelight:organic_mash')
+    event.add('bloodandbeauty:bone_meal_like', 'minecraft:bone_meal')
+
+
+    //Tools
+    event.add('bloodandbeauty:tools', '#forge:tools')
+    event.add('bloodandbeauty:tools', '#forge:shears')
+
+})
+
+ServerEvents.tags( 'block', event => {
+    //Broad Slab Catagory
+    //TODO: add vinery slabs
+    event.add('bloodandbeauty:foliage_slabs', /terrainslabs:.*/)
+    event.remove('bloodandbeauty:foliage_slabs', /terrainslabs:.*on_top/)
+    event.add('bloodandbeauty:foliage_slabs', /vinery:.*slab/)
+    event.remove('bloodandbeauty:foliage_slabs', "vinery:dark_cherry_slab")
+
+    //Dirtlike
+    event.add('bloodandbeauty:dirtlike_slabs', /.*dirt_slab/)
+    event.add('bloodandbeauty:dirtlike_slabs', /.*grass_slab/)
+    event.add('bloodandbeauty:dirtlike_slabs', /.*mud_slab/)
+    event.add('bloodandbeauty:dirtlike_slabs', 'terrainslabs:coarse_slab')
+    event.add('bloodandbeauty:dirtlike_slabs', 'terrainslabs:moss_slab')
+
+    //Airs
+    event.add('minecraft:air', /minecraft:.*air/)
+    event.add('minecraft:air', 'minecraft:structure_void')
+
+    event.get('minecraft:tall_flowers').getObjectIds()
+}) 

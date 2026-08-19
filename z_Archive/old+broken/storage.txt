@@ -1,0 +1,126 @@
+//Bad code based on incorrect premise
+
+/*
+if (global.storage == null) {
+    global.storage = {
+        'managedData': {},
+        'removeData': {}
+    }
+}
+    */
+/*
+ServerEvents.loaded(event => {
+    global.storage = {
+        'managedData': {},
+        'removeData': []
+    }
+
+    global.server = event.getServer()
+    global.persistentData = event.getServer().getPersistentData()
+    global.storage.managedData = global.storage.getPersistent('managedData', {})
+    global.storage.removeData = global.storage.getPersistent('removeData', [])
+    global.storage.getPersistent('backups', [])
+
+    global.storage.backup()
+
+    if (global.storage.removeData.length > 0) {
+        global.persistentData.remove('managedData')
+        let keys = Object.keys(global.storage.managedData)
+        for (var key of keys) {
+            if (global.storage.removeData.includes(key)) {
+                delete global.storage.managedData[key]
+            }
+        }
+        global.persistentData.remove('removeData')
+        global.storage.removeData = []
+        global.storage.getPersistent('removeData', [])
+        global.persistentData.put('managedData', global.storage.managedData)
+    }
+
+    global.tick.timeout(() => {
+        let keyChains = Object.keys(global.storage.managedData)
+        for (var chain of keyChains) {
+            object = global.keyChainToObject(chain)
+            if (object == null) {
+                continue
+            }
+            object = global.storage.managedData[chain].data
+        }
+    }, 2)
+
+    global.run('reload')
+})
+
+ServerEvents.unloaded(event => {
+    if (global.storage.managedData != null) {
+        event.getServer().getPersistentData().put('managedData', global.storage.managedData)
+    }
+    event.getServer().getPersistentData().put('removeData', global.storage.removeData)
+})
+
+global.storage.getPersistent = (key, initialValue) => {
+    if (!global.persistentData.contains(key)) {
+        global.persistentData.put(key, initialValue)
+    }
+    return global.persistentData.get(key)
+}
+global.storage.register = (object, keyChain) => {
+    if (global.storage.managedData[keyChain] != null) {
+        return false
+    }
+    let keyChains = Object.keys(global.storage.managedData)
+    for (var chain of keyChains) {
+        let relation = global.isParrentOf(keyChain, chain)
+        if (relation.equals('none')) {
+            continue
+        } else if (relation.equals('child')) {
+            return false
+        } else if (relation.equals('parent')) {
+            delete global.storage.managedData[chain]
+        }
+    }
+    global.storage.managedData[keyChain] = object
+}
+global.storage.remove = (keyChain) => {
+    if (global.storage.managedData[keyChain] == null) {
+        return null
+    }
+    object = Object.assign({}, global.storage.managedData[keyChain])
+    delete global.storage.managedData[keyChain]
+    global.storage.removeData.splice(global.storage.removeData.length, 0, keyChain)
+    return object
+}
+global.storage.backup = () => {
+
+}
+
+//---
+global.isParentOf = (keyChain, refChain) => {
+    let keys = keyChain.split('.')
+    let childKeys = refChain.split('.')
+    for (var i = 0; i < keys.length; i++) {
+        if (i >= childKeys.length) {
+            return 'child'
+        }
+        if (keys[i] != childkeys[i]) {
+            return 'none'
+        }
+    }
+    return 'parent'
+}
+global.keyChainToObject = (keyChain) => {
+    let keys = keyChain.split('.')
+    let object = global
+    let objectString = 'global'
+    for (var key of keys) {
+        objectString += '.'+key
+        object = object[key]
+        if (object == null) {
+            console.error('No target found for storage element ' + objectString)
+            global.new.text('No target found for storage element ' + objectString,"red").tellraw('Dusty_Flow')
+            return null
+        }
+    }
+    return object
+}
+*/

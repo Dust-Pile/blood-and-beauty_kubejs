@@ -1,0 +1,123 @@
+// material: harvest level
+var mapping = {
+    lead: "minecraft:stone",
+    copper: "hltweaker:copper",
+    brass: "minecraft:iron",
+    steel: "hltweaker:steel",
+    electrum: "hltweaker:steel",
+    tungsten: "hltweaker:tungsten",
+    // 'nilla
+    gold: "minecraft:gold",
+    netherite: "minecraft:netherite",
+    iron: "minecraft:iron",
+    diamond: "minecraft:iron"
+}
+// TODO: Add warden things
+
+var isFirst = true
+var outputString = '\n\n{'
+global.forEachIn( global.weaponry.materials, ( material, name ) => {
+    // Exit if I didn't assign anything
+    if ( mapping[ name ] == undefined ) {
+        return
+    }
+    //pick
+    if ( material.toolItems.pick != undefined ) {
+        outputString += isFirst ? '' : ','
+        isFirst = false
+
+        var toolName = material.toolItems.pick.equals('') ? ( 'cm_extended:' + name + '_pick' ) : material.toolItems.pick
+        outputString += 
+            '\n\t"' + toolName + '": {' +
+            '\n\t\t"minecraft:mineable/pickaxe": "' + mapping[ name ] + '"' +
+            '\n\t}'
+    }
+    //axe
+    if ( material.toolItems.axe != undefined ) {
+        outputString += isFirst ? '' : ','
+        isFirst = false
+
+        var toolName = material.toolItems.pick.equals('') ? ( 'cm_extended:' + name + '_axe' ) : material.toolItems.axe
+        outputString += 
+            '\n\t"' + toolName + '": {' +
+            '\n\t\t"minecraft:mineable/axe": "' + mapping[ name ] + '"' +
+            '\n\t}'
+    }
+    //hoe
+    if ( material.toolItems.hoe != undefined ) {
+        outputString += isFirst ? '' : ','
+        isFirst = false
+
+        var toolName = material.toolItems.hoe.equals('') ? ( 'cm_extended:' + name + '_hoe' ) : material.toolItems.hoe
+        outputString += 
+            '\n\t"' + toolName + '": {' +
+            '\n\t\t"minecraft:mineable/hoe": "' + mapping[ name ] + '"' +
+            '\n\t}'
+    }
+    //shovel
+    if ( material.toolItems.shovel != undefined ) {
+        outputString += isFirst ? '' : ','
+        isFirst = false
+
+        var toolName = material.toolItems.shovel.equals('') ? ( 'cm_extended:' + name + '_shovel' ) : material.toolItems.shovel
+        outputString += 
+            '\n\t"' + toolName + '": {' +
+            '\n\t\t"minecraft:mineable/shovel": "' + mapping[ name ] + '"' +
+            '\n\t}'
+    }
+    //pickaxe
+    if ( material.toolItems.pickaxe != undefined ) {
+        outputString += isFirst ? '' : ','
+        isFirst = false
+
+        var toolName = material.toolItems.pickaxe.equals('') ? ( 'cm_extended:' + name + '_pickaxe' ) : material.toolItems.pickaxe
+        outputString += 
+            '\n\t"' + toolName + '": {' +
+            '\n\t\t"minecraft:mineable/pickaxe": "' + mapping[ name ] + '",' +
+            '\n\t\t"minecraft:mineable/axe": "' + mapping[ name ] + '"' +
+            '\n\t}'
+    }
+    //pickadze
+    if ( material.toolItems.pickadze != undefined ) {
+        outputString += isFirst ? '' : ','
+        isFirst = false
+
+        var toolName = material.toolItems.pickadze.equals('') ? ( 'cm_extended:' + name + '_pickadze' ) : material.toolItems.pickadze
+        outputString += 
+            '\n\t"' + toolName + '": {' +
+            '\n\t\t"minecraft:mineable/pickaxe": "' + mapping[ name ] + '",' +
+            '\n\t\t"minecraft:mineable/shovel": "' + mapping[ name ] + '"' +
+            '\n\t}'
+    }
+    //grubhoe
+    if ( material.toolItems.grubhoe != undefined ) {
+        outputString += isFirst ? '' : ','
+        isFirst = false
+
+        var toolName = material.toolItems.grubhoe.equals('') ? ( 'cm_extended:' + name + '_grubhoe' ) : material.toolItems.grubhoe
+        outputString += 
+            '\n\t"' + toolName + '": {' +
+            '\n\t\t"minecraft:mineable/hoe": "' + mapping[ name ] + '",' +
+            '\n\t\t"minecraft:mineable/shovel": "' + mapping[ name ] + '"' +
+            '\n\t}'
+    }
+    //knife?
+})
+
+// Reduce Diamond Tools (just in case...)
+var name = 'diamond'
+outputString += 
+    ',\n\t"minecraft:diamond_pickaxe": {' +
+    '\n\t\t"minecraft:mineable/pickaxe": "' + mapping[ name ] + '"' +
+    '\n\t}' +
+    ',\n\t"minecraft:diamond_axe": {' +
+    '\n\t\t"minecraft:mineable/axe": "' + mapping[ name ] + '"' +
+    '\n\t}' +
+    ',\n\t"minecraft:diamond_hoe": {' +
+    '\n\t\t"minecraft:mineable/hoe": "' + mapping[ name ] + '"' +
+    '\n\t}' +
+    ',\n\t"minecraft:diamond_shovel": {' +
+    '\n\t\t"minecraft:mineable/shovel": "' + mapping[ name ] + '"' +
+    '\n\t}'
+
+console.log( outputString + '\n}\n' )

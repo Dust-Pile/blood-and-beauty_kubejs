@@ -1,0 +1,66 @@
+ServerEvents.tags( 'block', event => {
+    global.forEachIn( tweaks.crops, ( data, id ) => {
+        event.add( 'cslcrops:replaced', id )
+    } )
+})
+
+// Replace all crops with their copycat
+BlockEvents.placed( event => {
+    if ( !event.block.hasTag( 'cslcrops:replaced' ) ) {
+        return
+    }
+
+    event.block.set( tweaks.crops[ event.block.id ].copycat )
+})
+
+// Drop Proper loot
+BlockEvents.broken( event => {
+    const { block, player } = event
+
+    if ( !block.hasTag( 'cslcrops:crops' ) ) {
+        return
+    }
+    if ( player != null && player.isCreative() ) {
+        return
+    }
+
+    const { x, y, z } = block
+    var loc = global.new.point( x, y, z )
+
+    var state = global.blockState.get( block )
+
+    var owner = block.item.item.getName( block.item ).string
+    global.run([ 
+        'setblock ' + loc.toCommandString() + ' ' + owner + propertyString( state ) + ' replace',
+        'loot spawn ' + loc.toCommandString() + ' mine ' + loc.toCommandString(),
+        'setblock ' + loc.toCommandString() + ' air replace'
+    ])
+})
+
+// Harvest Function ( used in harvest.js )
+global.cslcrops_tweaks.harvest = ( block, state ) => {
+    if ( !block.hasTag( 'cslcrops:crops' ) ) {
+        return
+    }
+
+    const { x, y, z } = block
+    var loc = global.new.point( x, y, z )
+
+    var owner = block.item.item.getName( block.item ).string
+    global.run([ 
+        'setblock ' + loc.toCommandString() + ' ' + owner + propertyString( state ) + ' replace',
+        'setblock ' + loc.toCommandString() + ' ' + block.id + ' destroy'
+    ])
+}
+
+// Helper Functions
+function propertyString( state ) {
+    var firstRun = true
+    var outputString = '['
+    global.forEachIn( state, ( value, property ) => {
+        outputString += firstRun ? '' : ',' 
+        outputString += '' + property + '=' + ( typeof value == 'object' ? value.value : value )
+        firstRun = false
+    } )
+    return outputString + ']'
+}

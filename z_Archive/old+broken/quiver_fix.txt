@@ -1,0 +1,13 @@
+/*
+ItemEvents.rightClicked('supplementaries:quiver', event => {
+    global.say('Right Clicked')
+    if (event.getHand() != 'MAIN_HAND'){
+        event.exit()
+    }
+    global.say(event.getPlayer().getMainHandItem())
+})
+    /** */
+
+ItemEvents.dropped('supplementaries:quiver', event => {
+    event.getItemEntity().getNbt().get('Item').ForgeCaps.Parent.Size = 9
+})

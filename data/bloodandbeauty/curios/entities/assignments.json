@@ -1,0 +1,22 @@
+{
+    "replace": true,
+    "entities": ["player"],
+    "slots": [
+        "back", 
+        "belt",
+        "charm", 
+        "crafting_on_a_stick", 
+        "feet", 
+        "hands", 
+        "head", 
+        "quiver", 
+        "ring", 
+        "spellbook", 
+        "necklace", 
+        "tool_belt", 
+        "glider",
+        "ears",
+        "lantern",
+        "pouch"
+    ]
+}

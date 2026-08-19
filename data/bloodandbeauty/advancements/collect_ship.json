@@ -1,0 +1,20 @@
+{
+  "criteria": {
+    "Interact": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "player": {
+          "flags": {
+            "is_sneaking": true
+          }
+        },
+        "item": {
+          "tag": "bloodandbeauty:ship_collect_tool"
+        },
+        "entity": {
+          "type": "#bloodandbeauty:collectable_entities"
+        }
+      }
+    }
+  }
+}

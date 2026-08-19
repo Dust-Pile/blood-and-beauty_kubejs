@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:item/handheld",
+    "textures": {
+        "layer0": "bloodandbeauty:item/tools/brass/brass_grubhoe"
+    }
+}

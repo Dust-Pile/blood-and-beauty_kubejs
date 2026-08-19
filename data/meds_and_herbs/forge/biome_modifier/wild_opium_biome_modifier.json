@@ -1,0 +1,17 @@
+{
+  "type": "forge:add_features",
+  "biomes": [
+    "grove",
+    "stony_peaks",
+    "minecraft:sunflower_plains",
+    "minecraft:plains",
+    "terralith:highlands",
+    "minecraft:meadow",
+    "terralith:blooming_valley",
+    "biomesoplenty:crag",
+    "biomesoplenty:jade_cliffs",
+    "terralith:emerald_peaks"
+  ],
+  "features": "meds_and_herbs:wild_opium",
+  "step": "vegetal_decoration"
+}

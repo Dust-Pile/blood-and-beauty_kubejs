@@ -1,0 +1,29 @@
+// To be replaced by mail ( a more robust system )
+
+global.alert = {
+    alerts: {}
+}
+
+global.sendAlert = (player, message) => {
+    for (var somePlayer of global.onlinePlayers) {
+        if (somePlayer.getUsername().equals(player)) {
+            message.tellraw(player)
+            return
+        }
+    }
+    if (global.alert.alerts[player] == null) {
+        global.alert.alerts[player] = []
+    }
+    global.alert.alerts[player].splice(global.alert.alerts.length, 0, message)
+}
+
+PlayerEvents.loggedIn(event => {
+    let username = event.getPlayer().getUsername()
+    let alerts = global.alert.alerts[username]
+    if (alerts != null) {
+        while (alerts.length > 0) {
+            alerts.shift().tellraw(username)
+        }
+        delete global.alert.alerts[username]
+    }
+})

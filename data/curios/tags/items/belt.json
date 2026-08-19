@@ -1,0 +1,12 @@
+{
+    "replace": false,
+    "values": [],
+    "remove": [
+        "toolbelt:belt",
+        "supplementaries:quiver",
+        "supplementaries:key",
+        "suppsquared:heavy_key",
+        "minecraft:lantern",
+        "minecraft:soul_lantern"
+    ]
+}

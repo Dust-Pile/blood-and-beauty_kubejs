@@ -1,0 +1,171 @@
+// JsonIO can only access root modpack folder, not anything found in a .jar
+
+// use global.readJsonFileFromMod( type, MODID, location ) for other files.
+// location first attempt: "blockstates/<block_name>"
+
+const CROP_MODID = 'cslcrops'
+const CROP_MODID_ = CROP_MODID + ':'
+
+var tweaks = global.cslcrops_tweaks
+var crops = tweaks.crops
+
+StartupEvents.registry( 'block', event => {
+
+    // Create Crops and Data
+    global.forEachIn( crops, ( data, id ) => {
+        const [ modid, name ] = id.split(':')
+        var originalBlock = Block.getBlock( id )
+        var params = {
+            'itemModel': modid + ':item/' + data.seed.split(':')[1],
+            'states': global.blockState.getOptions( originalBlock.blockStates[0] ),
+            'blockstateJson': global.readJsonFileFromMod( 'assets', modid, 'blockstates/' + name + '.json' )
+        }
+        const { itemModel } = params 
+
+        var cropId = CROP_MODID_ + name
+        data.copycat = cropId
+        buildDyingCrop(
+            params,
+            event.create( cropId, 'crop' )
+                .bonemeal( context => { 
+                    return copycatBonemeal( context, originalBlock )
+                })
+                .growTick( context => {
+                    copycatCropRT( context, originalBlock )
+                    return 0.0
+                })
+                .randomTick( context => {
+                    return
+                })
+                .notSolid()
+                .cropSoundType()
+                .transparent( true )
+                .noDrops()
+                .item( item => {
+                    item
+                        .modelJson({
+                            "parent": itemModel
+                        })
+                        .name( context => {
+                            return id
+                        })
+                })
+                .tag( 'cslcrops:crops' )
+        ) // End function
+    })
+})
+
+// Build Crops
+function buildDyingCrop( params, blockBuilder ) {
+    const { states, blockstateJson } = params
+
+    addSeasonTags( params, blockBuilder ) // TODO
+        
+    assignStates( blockBuilder, states )
+    setLayers( blockBuilder, states )
+    blockBuilder.blockstateJson = blockstateJson
+
+    return blockBuilder
+}
+
+// Crop Functions
+function copycatBonemeal( context, originalBlock ) {
+    try {
+        const $block = Java.loadClass( originalBlock.class )
+        var originalIncrease = $block.getBonemealAgeIncrease( context.level )
+    } catch ( error ) {
+        console.error( error )
+        global.say( 'Unable to bonemeal block' )
+    }
+    
+    return originalIncrease
+}
+function copycatCropPRE( context ) {
+    return true
+}
+function copycatCropRT( context, originalBlock ) {
+    // global.say( 'Random ticking...' )
+    // if ( !copycatCropPRE( context ) ) {
+    //     return
+    // }
+    // const { level, block, random } = context
+
+    // try {
+    //     // Find copied block matching state
+    //     var state = global.blockState.get( block )
+    //     var refState = originalBlock.blockStates.find( predicate => {
+    //         var testState = global.blockState.get( predicate )
+    //         return hasMatchingStates( state, testState )
+    //     })
+    //     // Execute original random tick
+    //     if ( refState.isRandomlyTicking() ) {
+    //         refState.randomTick.apply( block.blockState, [ level, block.pos, random ] )
+    //     } else {
+    //         console.warn( 'Crop randomTick mismatch:\n' )
+    //     }
+    // } catch ( error ) {
+    //     console.error( error )
+    //     global.say( 'Unable to random tick block' )
+    // }
+
+    // // Post effects here
+    // global.say( 'Random ticking completed' )
+}
+
+// Helper Functions
+function addSeasonTags( params, blockBuilder ) {
+    return // TODO
+}
+function assignStates( blockBuilder, states ) {
+    global.forEachIn( states, ( state, name ) => {
+        if ( name == 'age' ) {
+            blockBuilder.property( BlockProperties[ 'AGE_' + ( state.options.length - 1 ) ] )
+        } else {
+            blockBuilder.property( BlockProperties[ name.toUpperCase() ] )
+        } 
+    })
+}
+function hasMatchingStates( state, testState ) {
+    global.forEachIn( state, ( value, name ) => {
+        if ( testState[ name ] == undefined || value != testState[ name ].value ) {
+            return false
+        }
+    })
+    return true
+}
+function setLayers( blockBuilder, states ) {
+    var options = states.age.options
+    blockBuilder.age( options.length - 1, shape => {
+        for ( var age of options ) {
+            var height = 2.0 + ( Math.floor( age / ( options.length - 1 ) )*7.0 )
+            shape.shape( age, 0.0, 0.0, 0.0, 16.0, height, 16.0 )
+        }
+    } )
+}
+
+// Attempted Things
+// const $Shapes = Java.loadClass( "net.minecraft.world.phys.shapes.Shapes" )
+// BlockEvents.modification( event => {
+//     event.modify( CROP_MODID_ + "withering_potatoes", block => {
+//         var states = global.blockState.get( block.blockStates[0] )
+//         var refBlock = Block.getBlock( "minecraft:potatoes" )
+//         block.blockStates.forEach( state => {
+//             for ( var refState of refBlock.blockStates ) {
+//                 if ( global.forEachIn( states, ( date, type ) => {
+//                     console.log( " state[ type ]: " + state[ type ] + ', refState[ type ]: ' + refState[ type ] )
+//                     if ( state[ type ] != refState[ type ] ) {
+//                         return false
+//                     }
+//                 } ) == false ) {
+//                     continue
+//                 }
+
+//                 state.getShape.// = refState.getShape
+//             }}
+//         )
+//         // block.getShapeForEachState( state => {
+//         //     var stateObj = global.blockState.get( state )
+//         //     return $Shapes.box( 0, 0, 0, 1, 0.5, 1 ) // 
+//         // })
+//     })
+// })

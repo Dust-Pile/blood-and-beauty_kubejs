@@ -1,0 +1,338 @@
+{
+    "minecraft:potatoes": {
+        "seed": "minecraft:potato",
+        "type": "F",
+        "min": 50,
+        "max": 90,
+        "seasons": ["fall","spring","summer"]
+    },
+    "vinery:red_grape_bush": {
+        "seed": "vinery:red_grape_seeds",
+        "type": "F",
+        "min": 32,
+        "max": 100,
+        "seasons": ["fall","summer"]
+    },
+    "minecraft:cocoa": {
+        "seed": "minecraft:cocoa_beans",
+        "type": "F",
+        "min": 65,
+        "max": 110,
+        "seasons": ["fall","spring","summer"]
+    },
+    "createcafe:coffee_crop": {
+        "seed": "createcafe:coffee_beans",
+        "type": "F",
+        "min": 65,
+        "max": 110,
+        "seasons": ["fall","spring","summer"]
+    },
+    "createcafe:cassava_crop": {
+        "seed": "createcafe:cassava_seeds",
+        "type": "F",
+        "min": 65,
+        "max": 110,
+        "seasons": ["fall"]
+    },
+    "vintagedelight:oat_crop": {
+        "seed": "vintagedelight:oat_seeds",
+        "type": "F",
+        "min": 32,
+        "max": 90,
+        "seasons": ["spring","summer"]
+    },
+    "farmersdelight:tomatoes": {
+        "seed": "farmersdelight:tomato_seeds",
+        "type": "F",
+        "min": 40,
+        "max": 100,
+        "seasons": ["summer"],
+        "transforms_hot": "farmersdelight:budding_tomatoes",
+        "transforms_cold": "farmersdelight:budding_tomatoes"
+    },
+    "minecraft:pumpkin_stem": {
+        "seed": "minecraft:pumpkin_seeds",
+        "type": "F",
+        "min": 32,
+        "max": 90,
+        "seasons": ["fall"]
+    },
+    "minecraft:pitcher_crop": {
+        "seed": "minecraft:pitcher_pod",
+        "type": "F",
+        "min": 65,
+        "max": 110,
+        "seasons": ["year"],
+        "transforms_hot": "none",
+        "transforms_cold": "none"
+    },
+    "minecraft:sugar_cane": {
+        "seed": "minecraft:sugar_cane",
+        "type": "F",
+        "min": 70,
+        "max": 105,
+        "seasons": ["year"],
+        "transforms_hot": "none",
+        "transforms_cold": "none"
+    },
+    "farmersdelight:cabbages": {
+        "seed": "farmersdelight:cabbage_seeds",
+        "type": "F",
+        "min": 16,
+        "max": 100,
+        "seasons": ["year"],
+        "transforms_cold": "none"
+    },
+    "veggiesdelight:turnip_crop": {
+        "seed": "veggiesdelight:turnip_seeds",
+        "type": "F",
+        "min": 32,
+        "max": 100,
+        "seasons": ["summer","fall"]
+    },
+    "vinery:jungle_grape_bush_white": {
+        "seed": "vinery:jungle_grape_seeds_white",
+        "type": "F",
+        "min": 65,
+        "max": 100,
+        "seasons": ["year"],
+        "transforms_hot": "none",
+        "transforms_cold": "none"
+    },
+    "minecraft:carrots": {
+        "seed": "minecraft:carrot",
+        "type": "F",
+        "min": 40,
+        "max": 90,
+        "seasons": ["fall","spring","summer"]
+    },
+    "vinery:jungle_grape_bush_red": {
+        "seed": "vinery:jungle_grape_seeds_red",
+        "type": "F",
+        "min": 65,
+        "max": 100,
+        "seasons": ["year"],
+        "transforms_hot": "none",
+        "transforms_cold": "none"
+    },
+    "delightful:salmonberry_bush": {
+        "seed": "delightful:salmonberry_pips",
+        "type": "F",
+        "min": 32,
+        "max": 65,
+        "seasons": ["spring","summer"],
+        "transforms_hot": "none",
+        "transforms_cold": "none"
+    },
+    "vintagedelight:ghost_pepper_crop": {
+        "seed": "vintagedelight:ghost_pepper_seeds",
+        "type": "F",
+        "min": 95,
+        "max": 155,
+        "seasons": ["year"]
+    },
+    "vinery:savanna_grape_bush_red": {
+        "seed": "vinery:savanna_grape_seeds_red",
+        "type": "F",
+        "min": 65,
+        "max": 100,
+        "seasons": ["winter"],
+        "transforms_hot": "none",
+        "transforms_cold": "none"
+    },
+    "snowyspirit:ginger": {
+        "seed": "snowyspirit:ginger_flower",
+        "type": "F",
+        "min": 60,
+        "max": 100,
+        "seasons": ["year"]
+    },
+    "vintagedelight:cucumber_crop": {
+        "seed": "vintagedelight:cucumber_seeds",
+        "type": "F",
+        "min": 32,
+        "max": 90,
+        "seasons": ["fall","summer"]
+    },
+    "vinery:savanna_grape_bush_white": {
+        "seed": "vinery:savanna_grape_seeds_white",
+        "type": "F",
+        "min": 65,
+        "max": 100,
+        "seasons": ["winter"],
+        "transforms_hot": "none",
+        "transforms_cold": "none"
+    },
+    "veggiesdelight:broccoli_crop": {
+        "seed": "veggiesdelight:broccoli_seeds",
+        "type": "F",
+        "min": 32,
+        "max": 100,
+        "seasons": ["year"]
+    },
+    "farmersdelight:onions": {
+        "seed": "farmersdelight:onion",
+        "type": "F",
+        "min": 16,
+        "max": 85,
+        "seasons": ["fall","winter"]
+    },
+    "veggiesdelight:cauliflower_crop": {
+        "seed": "veggiesdelight:cauliflower_seeds",
+        "type": "F",
+        "min": 32,
+        "max": 100,
+        "seasons": ["year"]
+    },
+    "minecraft:sweet_berry_bush": {
+        "seed": "minecraft:sweet_berries",
+        "type": "F",
+        "min": 16,
+        "max": 40,
+        "seasons": ["winter"],
+        "transforms_hot": "none",
+        "transforms_cold": "none"
+    },
+    "veggiesdelight:bellpepper_crop": {
+        "seed": "veggiesdelight:bellpepper_seeds",
+        "type": "F",
+        "min": 40,
+        "max": 100,
+        "seasons": ["summer"]
+    },
+    "farmersdelight:budding_tomatoes": {
+        "seed": "farmersdelight:tomato_seeds",
+        "type": "F",
+        "min": 40,
+        "max": 100,
+        "seasons": ["spring","summer"]
+    },
+    "minecraft:melon_stem": {
+        "seed": "minecraft:melon_seeds",
+        "type": "F",
+        "min": 32,
+        "max": 90,
+        "seasons": ["fall","summer"]
+    },
+    "supplementaries:flax": {
+        "seed": "supplementaries:flax_seeds",
+        "type": "F",
+        "min": 32,
+        "max": 100,
+        "seasons": ["summer","fall"]
+    },
+    "delightful:cantaloupe_plant": {
+        "seed": "delightful:cantaloupe_seeds",
+        "type": "F",
+        "min": 32,
+        "max": 100,
+        "seasons": ["summer","fall","winter"]
+    },
+    "minecraft:torchflower_crop": {
+        "seed": "minecraft:torchflower_seeds",
+        "type": "F",
+        "min": 45,
+        "max": 110,
+        "seasons": ["year"],
+        "transforms_hot": "none",
+        "transforms_cold": "none"
+    },
+    "hexerei:sage_crop": {
+        "seed": "hexerei:sage_seed",
+        "type": "F",
+        "min": 32,
+        "max": 90,
+        "seasons": ["year"]
+    },
+    "culturaldelights:corn": {
+        "seed": "culturaldelights:corn_kernels",
+        "type": "F",
+        "min": 45,
+        "max": 100,
+        "seasons": ["summer"]
+    },
+    "vinery:taiga_grape_bush_red": {
+        "seed": "vinery:taiga_grape_seeds_red",
+        "type": "F",
+        "min": 32,
+        "max": 70,
+        "seasons": ["spring","winter"]
+    },
+    "hexalia:sunfire_tomato_crop": {
+        "seed": "hexalia:sunfire_tomato_seeds",
+        "type": "F",
+        "min": 60,
+        "max": 150,
+        "seasons": ["summer"]
+    },
+    "vinery:white_grape_bush": {
+        "seed": "vinery:white_grape_seeds",
+        "type": "F",
+        "min": 32,
+        "max": 100,
+        "seasons": ["fall","summer"]
+    },
+    "culturaldelights:eggplants": {
+        "seed": "culturaldelights:eggplant_seeds",
+        "type": "F",
+        "min": 40,
+        "max": 100,
+        "seasons": ["summer"]
+    },
+    "veggiesdelight:zucchini_crop": {
+        "seed": "veggiesdelight:zucchini_seeds",
+        "type": "F",
+        "min": 32,
+        "max": 90,
+        "seasons": ["fall","summer"]
+    },
+    "farmersdelight:rice": {
+        "seed": "farmersdelight:rice",
+        "type": "F",
+        "min": 50,
+        "max": 100,
+        "seasons": ["summer","fall"]
+    },
+    "veggiesdelight:garlic_crop": {
+        "seed": "veggiesdelight:garlic_clove",
+        "type": "F",
+        "min": 16,
+        "max": 100,
+        "seasons": ["winter","summer"]
+    },
+    "minecraft:wheat": {
+        "seed": "minecraft:wheat_seeds",
+        "type": "F",
+        "min": 32,
+        "max": 100,
+        "seasons": ["winter","summer"]
+    },
+    "vinery:taiga_grape_bush_white": {
+        "seed": "vinery:taiga_grape_seeds_white",
+        "type": "F",
+        "min": 32,
+        "max": 70,
+        "seasons": ["spring","winter"]
+    },
+    "minecraft:nether_wart": {
+        "seed": "minecraft:nether_wart",
+        "type": "F",
+        "min": 100,
+        "max": 150,
+        "seasons": ["year"]
+    },
+    "minecraft:beetroots": {
+        "seed": "minecraft:beetroot_seeds",
+        "type": "F",
+        "min": 32,
+        "max": 100,
+        "seasons": ["summer","fall","winter"]
+    },
+    "veggiesdelight:sweet_potato_crop": {
+        "seed": "veggiesdelight:sweet_potato",
+        "type": "F",
+        "min": 60,
+        "max": 105,
+        "seasons": ["spring","summer","fall"]
+    }
+}

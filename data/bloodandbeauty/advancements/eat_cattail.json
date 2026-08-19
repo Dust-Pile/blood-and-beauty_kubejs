@@ -1,0 +1,26 @@
+{
+    "display": {
+      "icon": {
+        "item": "bloodandbeauty:cattail_stalk"
+      },
+      "title": "Expands Rapidly on Impact!",
+      "description": "Not that good for eating.",
+      "frame": "task",
+      "show_toast": true,
+      "announce_to_chat": true,
+      "hidden": true
+    },
+    "parent": "farmersdelight:main/root",
+    "criteria": {
+      "eat_cattail_stalk": {
+        "trigger": "minecraft:consume_item",
+        "conditions": {
+          "item": {
+            "items": [
+              "bloodandbeauty:cattail_stalk"
+            ]
+          }
+        }
+      }
+    }
+  }
