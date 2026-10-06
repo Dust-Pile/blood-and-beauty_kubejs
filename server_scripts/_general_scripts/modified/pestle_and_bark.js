@@ -1,7 +1,6 @@
 //create / modify recipes
 ServerEvents.recipes( event => {
-    //Meds and Herbs powders
-    {
+    /* Meds and Herbs powders */ {
         event.recipes.farmersdelight.cutting(
             'meds_and_herbs:aloe_leaves',
             '#forge:tools/knives', 
@@ -102,25 +101,30 @@ ServerEvents.recipes( event => {
         )
     }
     
-    //remove mortar and pestle
-    event.remove({ output: "meds_and_herbs:grinder" })
-    event.replaceInput(
-        { Input: "meds_and_herbs:bark_acacia" },
-        "meds_and_herbs:bark_acacia",
-        "farmersdelight:tree_bark"
-    )
-    event.replaceInput(
-        { Input: "immersive_weathering:oak_bark" },
-        "immersive_weathering:oak_bark",
-        "farmersdelight:tree_bark"
-    )
-    // event.remove({ id: /^immersive_weathering:.*unstrip/ })
-    // event.remove({ id: 'immersive_weathering:oak_wood_from_bark' })
+    /* remove mortar and pestle */ {
+        event.remove({ output: "meds_and_herbs:grinder" })
+        event.replaceInput(
+            { Input: "meds_and_herbs:bark_acacia" },
+            "meds_and_herbs:bark_acacia",
+            "farmersdelight:tree_bark"
+        )
+        event.replaceInput(
+            { Input: "immersive_weathering:oak_bark" },
+            "immersive_weathering:oak_bark",
+            "farmersdelight:tree_bark"
+        )
+        // event.remove({ id: /^immersive_weathering:.*unstrip/ })
+        // event.remove({ id: 'immersive_weathering:oak_wood_from_bark' })
 
-    //Hexalia remove normal recipe
-    event.remove({ input: 'hexalia:mortar_and_pestle' })
-    //Hexalia powders and pastes
-    {
+        //Hexalia remove normal recipe
+        event.remove({ input: 'hexalia:mortar_and_pestle' })
+
+        //remove hexalia mortar and pestle
+        event.remove({ output: "hexalia:mortar_and_pestle" })
+    }
+
+    // TODO: Check for new recipes / items
+    /* Hexalia powders and pastes */ {
         event.recipes.farmersdelight.cutting(
             'hexalia:saltsprout',
             '#forge:tools/knives', 
@@ -164,9 +168,7 @@ ServerEvents.recipes( event => {
             ],
         )
     }
-    //remove hexalia mortar and pestle
-    event.remove({ output: "hexalia:mortar_and_pestle" })
-
+    
     for ( var log of extraLogs ) {
         event.recipes.farmersdelight.cutting(
             log,
@@ -178,6 +180,7 @@ ServerEvents.recipes( event => {
         )
     }
 
+    // ========== Expand Stripped Log List ========== //
     event.remove({ output: "create:andesite_casing" })
     event.remove({ output: "create:brass_casing" })
     event.recipes.create.item_application(
@@ -197,7 +200,8 @@ ServerEvents.recipes( event => {
 
 })
 
-//Remove meds bark drops
+// ========== Replace meds bark drops ========== //
+// Give bark
 BlockEvents.rightClicked( event => {
     const { block, facing } = event
 
@@ -208,6 +212,7 @@ BlockEvents.rightClicked( event => {
     block.popItemFromFace( 'farmersdelight:tree_bark', facing )
 })
 
+// Kill meds bark
 EntityEvents.spawned( 'item', event => {
     const { entity } = event
     var item = entity.item

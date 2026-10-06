@@ -1,3 +1,4 @@
+// TODO: Add more campfires?
 let campfires = [ 'minecraft:campfire','minecraft:soul_campfire' ]
 
 BlockEvents.placed( "minecraft:netherrack", event => {

@@ -1,5 +1,7 @@
 //priority: 5
 
+// All bulk data for cm_extended
+
 const $Grubhoe = Java.loadClass( 'net.dusty_dusty.bnb_core.tools.Grubhoe' )
 const $Pickaxe = Java.loadClass( 'net.dusty_dusty.bnb_core.tools.Pickaxe' )
 const $Pickadze = Java.loadClass( 'net.dusty_dusty.bnb_core.tools.Pickadze' )

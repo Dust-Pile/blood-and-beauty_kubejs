@@ -1,5 +1,7 @@
 //priority: 0
 
+// DEPRECIATED: TODO: Implement in forge, transfer to amendments.
+
 var coin_data = global.coin_data
 var coinValues = coin_data.values
 

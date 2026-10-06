@@ -1,5 +1,7 @@
 //priority: 2
 
+// DEPRECIATED: TODO: Implement using existing AABB Code
+
 if (global.shape == null) {
     global.shape = {
         'TYPES': ['rect','circle', 'sphere', 'cuboid'],

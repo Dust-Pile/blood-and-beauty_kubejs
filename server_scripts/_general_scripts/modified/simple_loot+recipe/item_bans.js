@@ -1,3 +1,4 @@
+// Generic remove item/recipe area + util. Prefer "Reliable Remover" for simple case.
 ServerEvents.recipes(event => {
 
     // Copper Nugget

@@ -1,5 +1,7 @@
 //priority: 2
 
+// DEPRECIATED: TODO: Implement in forge. Maybe use different coins?
+
 if ( global.coin_data == null ) {
     global.coin_data = {}
 }

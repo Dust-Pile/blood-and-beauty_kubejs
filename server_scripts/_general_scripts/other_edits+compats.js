@@ -1,217 +1,225 @@
 ServerEvents.recipes( event => {
+    
+    /* Flour and Bread */ {
+        event.remove( { id: "vintagedelight:cutting/oat_cutting" } )
+        event.remove( { input: "minecraft:wheat", output: 'farmersdelight:wheat_dough' } )
+        event.remove( { id: "farmersdelight:wheat_dough_from_water" } )
+        event.replaceInput( 
+            { input: 'create:dough' },
+            'create:dough',
+            '#forge:dough'
+        )
 
-    // Flour and Bread
-    event.remove( { id: "vintagedelight:cutting/oat_cutting" } )
-    event.remove( { input: "minecraft:wheat", output: 'farmersdelight:wheat_dough' } )
-    event.remove( { id: "farmersdelight:wheat_dough_from_water" } )
-    event.replaceInput( 
-        { input: 'create:dough' },
-        'create:dough',
-        '#forge:dough'
-    )
-    event.remove( { id: "festive_delight:ginger_bread_dough_craft" } )
-    event.shapeless(
-        Item.of( "festive_delight:gingerbread_dough", 1 ),
-        [
-            'snowyspirit:ginger',
-            'festive_delight:cinnamon_powder',
-            'create:wheat_flour',
-            '#forge:eggs',
-            'minecraft:honey_bottle'
-        ]
-    )
-    event.recipes.create.mixing(
-        Item.of( "festive_delight:gingerbread_dough", 2 ),
-        [
-            'snowyspirit:ginger',
-            'festive_delight:cinnamon_powder',
-            'create:wheat_flour',
-            '#forge:eggs',
-            Fluid.of( "create:honey", 250 )
-        ]
-    )
-    event.replaceInput(
-        { input: "create_confectionery:gingerdough" },
-        'create_confectionery:gingerdough',
-        "festive_delight:gingerbread_dough"
-    )
-    event.replaceInput(
-        { input: 'farmers_delight_christmas_editon:raw_gingerbread_dough' },
-        'farmers_delight_christmas_editon:raw_gingerbread_dough',
-        "festive_delight:gingerbread_dough"
-    )
+        event.remove( { id: "festive_delight:ginger_bread_dough_craft" } )
+        event.shapeless(
+            Item.of( "festive_delight:gingerbread_dough", 1 ),
+            [
+                'snowyspirit:ginger',
+                'festive_delight:cinnamon_powder',
+                'create:wheat_flour',
+                '#forge:eggs',
+                'minecraft:honey_bottle'
+            ]
+        )
+        event.recipes.create.mixing(
+            Item.of( "festive_delight:gingerbread_dough", 2 ),
+            [
+                'snowyspirit:ginger',
+                'festive_delight:cinnamon_powder',
+                'create:wheat_flour',
+                '#forge:eggs',
+                Fluid.of( "create:honey", 250 )
+            ]
+        )
+        event.replaceInput(
+            { input: "create_confectionery:gingerdough" },
+            'create_confectionery:gingerdough',
+            "festive_delight:gingerbread_dough"
+        )
+        event.replaceInput(
+            { input: 'farmers_delight_christmas_editon:raw_gingerbread_dough' },
+            'farmers_delight_christmas_editon:raw_gingerbread_dough',
+            "festive_delight:gingerbread_dough"
+        )
+    }
 
-    // Dusty Decorations leather from cutting board
-    event.remove( { type: "minecraft:crafting_shapeless", input: /^dustydecorations:.*_hide.*/ } )
-    event.recipes.farmersdelight.cutting( 
-        'dustydecorations:cow_hide_rug',
-        '#forge:tools/knives',
-        [
-            Item.of( 'minecraft:leather', 2 ),
-            Item.of( 'minecraft:leather' ).withChance( 0.5 )
-        ]
-    )
-    event.recipes.farmersdelight.cutting( 
-        'dustydecorations:mooshroom_hide',
-        '#forge:tools/knives',
-        [
-            Item.of( 'minecraft:leather', 2 ),
-            Item.of( 'minecraft:leather' ).withChance( 0.5 )
-        ]
-    )
+    /* Dusty Decorations leather from cutting board */ {
+        event.remove( { type: "minecraft:crafting_shapeless", input: /^dustydecorations:.*_hide.*/ } )
+        event.recipes.farmersdelight.cutting( 
+            'dustydecorations:cow_hide_rug',
+            '#forge:tools/knives',
+            [
+                Item.of( 'minecraft:leather', 2 ),
+                Item.of( 'minecraft:leather' ).withChance( 0.5 )
+            ]
+        )
+        event.recipes.farmersdelight.cutting( 
+            'dustydecorations:mooshroom_hide',
+            '#forge:tools/knives',
+            [
+                Item.of( 'minecraft:leather', 2 ),
+                Item.of( 'minecraft:leather' ).withChance( 0.5 )
+            ]
+        )
+    }
 
-    // Charred Log
-    event.remove( { type: "minecraft:blasting", output: "dawnoftimebuilder:charred_spruce_log_stripped" } )
-    event.remove( { type: "minecraft:smelting", output: "dawnoftimebuilder:charred_spruce_log_stripped" } )
+    /* Fixing 'netherite' recipies (use smithing table smh) */ {
+        //'sophisticatedbackpacks:stack_upgrade_tier_4' 
+        event.remove({ output: 'sophisticatedbackpacks:stack_upgrade_tier_4' })
+        event.smithing(
+            'sophisticatedbackpacks:stack_upgrade_tier_4',   // arg 1: output
+            'minecraft:netherite_upgrade_smithing_template', // arg 2: the smithing template
+            'sophisticatedbackpacks:stack_upgrade_tier_3',   // arg 3: the item to be upgraded
+            'minecraft:netherite_block'                      // arg 4: the upgrade item
+        )
+        //change nether upgrade
+        event.shaped(
+            Item.of('vc_gliders:nether_upgrade', 1),
+            [
+                'ABA',
+                'C C'
+            ],
+            {
+                A: 'minecraft:nether_brick',
+                B: 'minecraft:obsidian',
+                C: 'minecraft:nether_brick_fence'
+            }
+        )
+    }
 
-    // Fried Egg Compats
-    event.smelting( 'luckyclover:fried_egg', 'minecraft:blue_egg' )
-    event.smelting( 'luckyclover:fried_egg', 'minecraft:brown_egg' )
-    event.smoking( 'luckyclover:fried_egg', 'minecraft:blue_egg' )
-    event.smoking( 'luckyclover:fried_egg', 'minecraft:brown_egg' )
-    event.campfireCooking( 'luckyclover:fried_egg', 'minecraft:blue_egg', 0.35, 600 )
-    event.campfireCooking( 'luckyclover:fried_egg', 'minecraft:brown_egg', 0.35, 600 )
+    /* Rope Adjustments */ {
+        event.replaceInput(
+            { input: 'farmersdelight:rope' },
+            'farmersdelight:rope',
+            '#forge:rope'
+        )
+        event.replaceInput(
+            { input: 'supplementaries:rope' },
+            'supplementaries:rope',
+            '#forge:rope'
+        )
+        event.replaceInput(
+            { input: 'quark:rope' },
+            'quark:rope',
+            '#forge:rope'
+        )
+        event.replaceInput(
+            { input: 'dustydecorations:rope' },
+            'dustydecorations:rope',
+            '#forge:rope'
+        )
+        event.shapeless(
+            "supplementaries:rope",
+            [
+                "#forge:rope"
+            ]
+        )
+    }
 
-    // Allow smooth quartz recycle
-    event.recipes.farmersdelight.cutting(
-        'minecraft:smooth_quartz',
-        '#forge:tools/pickaxes',
-        [ 
-            Item.of( 'minecraft:quartz', 4 )
-        ],
-        ''
-    )
+    /* Small */ {
 
-    //Arcane Chili recipe
-    event.recipes.farmersdelight.cooking(
-        [
-            "dungeonsdelight:rotten_tripe",
-            "dungeonsdelight:sculk_polyp",
-            "dungeonsdelight:sculk_polyp",
-            "dungeonsdelight:wardenzola_crumbles",
-            "ironsspells:arcane_essence",
-            "farmersrespite:blazing_chili"
-        ],
-        "dungeonsdelight:arcane_chili",
-        2,
-        600,
-        'minecraft:bucket'
-    )
+        //Use Barley instead of dried seeds (TODO: doesn't work)
+        event.replaceInput(
+            { input: 'alcocraftplus:dry_seeds'},
+            'alcocraftplus:dry_seeds',
+            'biomesoplenty:barley'
+        )
 
-    //Use Barley instead (doesn't work)
-    event.replaceInput(
-        { input: 'alcocraftplus:dry_seeds'},
-        'alcocraftplus:dry_seeds',
-        'biomesoplenty:barley'
-    )
+        //Oat from wild plant
+        event.recipes.farmersdelight.cutting(
+            /^.*:sea_oats/,
+            '#forge:tools/knives',
+            [ 
+                Item.of('vintagedelight:oat_seeds', 1)
+            ],
+            ''
+        )
 
-    //blackstone furnace compat
-    event.replaceInput(
-        { input: 'nethersdelight:blackstone_furnace' },
-        'nethersdelight:blackstone_furnace',
-        'quark:blackstone_furnace'
-    )
+        // Charred Log
+        event.remove( { type: "minecraft:blasting", output: "dawnoftimebuilder:charred_spruce_log_stripped" } )
+        event.remove( { type: "minecraft:smelting", output: "dawnoftimebuilder:charred_spruce_log_stripped" } )
 
-    //remove cutting in crafting table
-    event.remove( { type: "minecraft:crafting", input: "#forge:tools/knives" } )
+        // Fried Egg Compats
+        event.smelting( 'luckyclover:fried_egg', 'minecraft:blue_egg' )
+        event.smelting( 'luckyclover:fried_egg', 'minecraft:brown_egg' )
+        event.smoking( 'luckyclover:fried_egg', 'minecraft:blue_egg' )
+        event.smoking( 'luckyclover:fried_egg', 'minecraft:brown_egg' )
+        event.campfireCooking( 'luckyclover:fried_egg', 'minecraft:blue_egg', 0.35, 600 )
+        event.campfireCooking( 'luckyclover:fried_egg', 'minecraft:brown_egg', 0.35, 600 )
 
-    //Fixing 'netherite' recipies (use smithing table smh)
-    //'sophisticatedbackpacks:stack_upgrade_tier_4' 
-    event.remove({ output: 'sophisticatedbackpacks:stack_upgrade_tier_4' })
-    event.smithing(
-        'sophisticatedbackpacks:stack_upgrade_tier_4',   // arg 1: output
-        'minecraft:netherite_upgrade_smithing_template', // arg 2: the smithing template
-        'sophisticatedbackpacks:stack_upgrade_tier_3',   // arg 3: the item to be upgraded
-        'minecraft:netherite_block'                      // arg 4: the upgrade item
-    )
-    //change nether upgrade
-    event.shaped(
-        Item.of('vc_gliders:nether_upgrade', 1),
-        [
-            'ABA',
-            'C C'
-        ],
-        {
-            A: 'minecraft:nether_brick',
-            B: 'minecraft:obsidian',
-            C: 'minecraft:nether_brick_fence'
-        }
-    )
+        // Allow smooth quartz recycle
+        event.recipes.farmersdelight.cutting(
+            'minecraft:smooth_quartz',
+            '#forge:tools/pickaxes',
+            [ 
+                Item.of( 'minecraft:quartz', 4 )
+            ],
+            ''
+        )
 
-    //Oat recipes
-    event.recipes.farmersdelight.cutting(
-        /^.*:sea_oats/,
-        '#forge:tools/knives',
-        [ 
-            Item.of('vintagedelight:oat_seeds', 1)
-        ],
-        ''
-	)
+        //Arcane Chili recipe
+        event.recipes.farmersdelight.cooking(
+            [
+                "dungeonsdelight:rotten_tripe",
+                "dungeonsdelight:sculk_polyp",
+                "dungeonsdelight:sculk_polyp",
+                "dungeonsdelight:wardenzola_crumbles",
+                "ironsspells:arcane_essence",
+                "farmersrespite:blazing_chili"
+            ],
+            "dungeonsdelight:arcane_chili",
+            2,
+            600,
+            'minecraft:bucket'
+        )
 
-    //Rope Adjustments
-    event.replaceInput(
-        { input: 'farmersdelight:rope' },
-        'farmersdelight:rope',
-        '#forge:rope'
-    )
-    event.replaceInput(
-        { input: 'supplementaries:rope' },
-        'supplementaries:rope',
-        '#forge:rope'
-    )
-    event.replaceInput(
-        { input: 'quark:rope' },
-        'quark:rope',
-        '#forge:rope'
-    )
-    event.replaceInput(
-        { input: 'dustydecorations:rope' },
-        'dustydecorations:rope',
-        '#forge:rope'
-    )
-    event.shapeless(
-        "supplementaries:rope",
-        [
-            "#forge:rope"
-        ]
-    )
+        //blackstone furnace compat
+        event.replaceInput(
+            { input: 'nethersdelight:blackstone_furnace' },
+            'nethersdelight:blackstone_furnace',
+            'quark:blackstone_furnace'
+        )
 
-    //Remove Hexerei dry zombie flesh into leather
-    event.remove({ id: 'hexerei:leather_from_drying_rack' })
+        //remove cutting in crafting table
+        event.remove( { type: "minecraft:crafting", input: "#forge:tools/knives" } )
 
-    //Trotting Wagons Recipes allow more wood
-    event.replaceInput(
-        { mod: 'trotting_wagons' },
-        'minecraft:spruce_planks',
-        '#minecraft:planks'
-    )
-    event.replaceInput(
-        { mod: 'trotting_wagons' },
-        'minecraft:stripped_spruce_log',
-        '#forge:stripped_logs'
-    )
+        //Remove Hexerei dry zombie flesh into leather
+        event.remove({ id: 'hexerei:leather_from_drying_rack' })
 
-    //Incubation twig nest recipe
-    event.shaped(
-        'incubation:twig_nest',
-        [
-            'A A',
-            'AAA'
-        ],
-        {
-            A: 'farmersdelight:straw'
-        }
-    )
+        //Trotting Wagons Recipes allow more wood
+        event.replaceInput(
+            { mod: 'trotting_wagons' },
+            'minecraft:spruce_planks',
+            '#minecraft:planks'
+        )
+        event.replaceInput(
+            { mod: 'trotting_wagons' },
+            'minecraft:stripped_spruce_log',
+            '#forge:stripped_logs'
+        )
 
-    //Cucumber compat
-    event.remove({ output: "vintagedelight:cucumber_noodles" })
-    event.replaceInput(
-        { input: "culturaldelights:cucumber" },
-        "culturaldelights:cucumber",
-        "vintagedelight:cucumber"
-    )
-    event.remove({ output: "culturaldelights:cucumber_crate" })
-    event.remove({ output: "culturaldelights:cucumber" })
+        //Incubation twig nest recipe
+        event.shaped(
+            'incubation:twig_nest',
+            [
+                'A A',
+                'AAA'
+            ],
+            {
+                A: 'farmersdelight:straw'
+            }
+        )
+
+        //Cucumber compat
+        event.remove({ output: "vintagedelight:cucumber_noodles" })
+        event.replaceInput(
+            { input: "culturaldelights:cucumber" },
+            "culturaldelights:cucumber",
+            "vintagedelight:cucumber"
+        )
+        event.remove({ output: "culturaldelights:cucumber_crate" })
+        event.remove({ output: "culturaldelights:cucumber" })
+    }
 
 })
 

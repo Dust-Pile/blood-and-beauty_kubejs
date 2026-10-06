@@ -1,8 +1,4 @@
-// ServerEvents.recipes( event => {
-//     for ( var filter of sawmillFilters ) {
-//         event.remove( { output: filter, type: "sawmill:woodcutting" } )
-//     }
-// })
+// Built-in filter tag for sawmill.
 ServerEvents.tags( "item", event => {
     for ( var filter of sawmillFilters ) {
         event.add( "sawmill:blacklist", filter )

@@ -1,3 +1,5 @@
+// Print list of block ids in area to kubejs server log.
+
 ServerEvents.commandRegistry( event => {
     event.register(event.commands.literal('dumpblocks') // The name of the command
         .requires(s => s.hasPermission(4))

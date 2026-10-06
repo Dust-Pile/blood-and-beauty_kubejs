@@ -2,6 +2,7 @@ const $EntityTypeTags = Java.loadClass( "net.minecraft.tags.EntityTypeTags" )
 const $ProjectileImpactEvent = Java.loadClass( "net.minecraftforge.event.entity.ProjectileImpactEvent" )
 const $HitResult = Java.loadClass( "net.minecraft.world.phys.HitResult" )
 
+// ========== Wormmouth from Arrow ========== //
 global.addListener( 
     "net.minecraftforge.event.entity.ProjectileImpactEvent",
     "shootWormouth",

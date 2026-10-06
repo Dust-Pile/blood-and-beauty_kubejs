@@ -1,4 +1,5 @@
 // wardenzola ha ha ha
+// TODO: better impl, debuff more?
 
 const DAMAGE_TABLE = [ 1, 1, 1, 1, 0.9, 0.75, 0.5, 0.25, 0.13, 0.06 ]
 const HP_THRESHOLD = 10

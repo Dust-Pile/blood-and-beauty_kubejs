@@ -1,5 +1,7 @@
 //priority: 0
 
+// Data driven weapon/tool/armor gen
+
 // const MODID = "cm_extended"
 // const MODID_ = '' + MODID + ':'
 

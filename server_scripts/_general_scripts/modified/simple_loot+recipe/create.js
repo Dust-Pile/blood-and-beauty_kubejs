@@ -1,6 +1,6 @@
 ServerEvents.recipes( event => {
 
-    { // Immersive Aircraft
+    /* Immersive Aircraft */ {
         /*
             Creatify all immersive_aircraft recipies 
             dependancies: Create, Create Crafts & Additions
@@ -427,7 +427,9 @@ ServerEvents.recipes( event => {
         )
     }
 
-    { // Waystones
+    /* Waystones */ { 
+        // TODO: Check on update?
+
         //remove recipes
         event.remove({ output: /waystones:.*_scroll/ })
         event.remove({ output: /waystones:.*waystone/ })
@@ -506,7 +508,7 @@ ServerEvents.recipes( event => {
         )
     }
 
-    { // Immersive Weathering
+    /* Immersive Weathering */ { 
         // Clay from clay
         event.recipes.create.mixing(
             [
@@ -520,9 +522,7 @@ ServerEvents.recipes( event => {
         )
     }
 
-    { // Addon Minor
-        // ===== Create: Rubberworks =====
-        // Other Compats
+    /* Create Rubberworks */ {
         event.recipes.create.compacting(
             Item.of( "minecraft:resin_clump" ),
             [
@@ -629,8 +629,9 @@ ServerEvents.recipes( event => {
             "minecraft:dried_kelp",
             "rubberworks:rubber_sheet"
         )
+    }
 
-        
+    { // Addon Minor
         // ===== Create Deco =====
         // Change sturdy sheet block recipe
         event.remove({ output: "create_things_and_misc:sturdy_sheet_block" })

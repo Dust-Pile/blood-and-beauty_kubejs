@@ -1,3 +1,5 @@
+// DEPRECIATED: TODO: Move to amendments and archive custom transfer.
+
 //Make belt lantern work with curios
 if ( global.curios == undefined ) {
     global.curios = {}

@@ -1,3 +1,5 @@
+// One stop shop for en_us lang fixes/changes
+
 // Rename
 ClientEvents.lang( "en_us", event => {
     global.forEachIn( blocks, ( display, id ) => {
