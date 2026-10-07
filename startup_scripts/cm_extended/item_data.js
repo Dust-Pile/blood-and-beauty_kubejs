@@ -767,11 +767,11 @@ global.weaponry.materials = {
             hardness: 3
         },
         toolItems: {
-            sword: "simplesilver:silver_sword",
-            hoe: "simplesilver:silver_hoe",
-            axe: "simplesilver:silver_axe",
-            pick: "simplesilver:silver_pickaxe",
-            shovel: "simplesilver:silver_shovel",
+            sword: "thesilverage:silver_sword",
+            hoe: "thesilverage:silver_hoe",
+            axe: "thesilverage:silver_axe",
+            pick: "thesilverage:silver_pickaxe",
+            shovel: "thesilverage:silver_shovel",
             knife: "",
             cleaver: "",
             pickaxe: '',
@@ -785,20 +785,20 @@ global.weaponry.materials = {
             hammer: ''
         },
         armorItems: {
-            chestplate: "simplesilver:silver_chestplate",
-            helmet: "simplesilver:silver_helmet",
-            leggings: "simplesilver:silver_leggings",
-            boots: "simplesilver:silver_boots"
+            chestplate: "thesilverage:silver_chestplate",
+            helmet: "thesilverage:silver_helmet",
+            leggings: "thesilverage:silver_leggings",
+            boots: "thesilverage:silver_boots"
         },
         craftItems: {
-            block: "simplesilver:silver_block",
-            ingot: "simplesilver:silver_ingot",
-            raw: "simplesilver:raw_silver",
+            block: "thesilverage:silver_block",
+            ingot: "thesilverage:silver_ingot",
+            raw: "thesilverage:raw_silver",
             crushed: "",
             dirty: "",
             dust: "",
             sheet: "",
-            nugget: "simplesilver:silver_nugget",
+            nugget: "thesilverage:silver_nugget",
         }
     },
     electrum: {

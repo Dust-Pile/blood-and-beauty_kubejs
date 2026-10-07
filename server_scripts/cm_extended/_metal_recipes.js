@@ -67,8 +67,8 @@ ServerEvents.recipes( event => {
             'createdeco:industrial_iron_nugget'
         )
             //Silver
-        event.remove({ type: 'minecraft:smelting', output: 'simplesilver:silver_ingot'})
-        event.remove({ type: 'minecraft:blasting', output: 'simplesilver:silver_ingot'})
+        event.remove({ type: 'minecraft:smelting', output: 'thesilverage:silver_ingot'})
+        event.remove({ type: 'minecraft:blasting', output: 'thesilverage:silver_ingot'})
     }
     
     // Replace / add melting recipes
@@ -142,7 +142,7 @@ ServerEvents.recipes( event => {
         )
         event.recipes.create.crushing(
             [ 'cm_extended:crushed_raw_silver', Item.of( 'create:experience_nugget', 2 ).withChance( 0.75 ) ],
-            Item.of( "simplesilver:raw_silver" )
+            Item.of( "thesilverage:raw_silver" )
         )
         event.recipes.create.crushing(
             [ 
@@ -151,7 +151,7 @@ ServerEvents.recipes( event => {
                 Item.of( 'create:experience_nugget', 2 ).withChance( 0.75 ),
                 'minecraft:cobblestone'
             ],
-            Item.of( 'simplesilver:silver_ore' )
+            Item.of( 'thesilverage:silver_ore' )
         )
         event.recipes.create.crushing(
             [ 
@@ -160,15 +160,15 @@ ServerEvents.recipes( event => {
                 Item.of( 'create:experience_nugget', 2 ).withChance( 0.75 ),
                 'minecraft:cobbled_deepslate'
             ],
-            Item.of( 'simplesilver:deepslate_silver_ore' )
+            Item.of( 'thesilverage:deepslate_silver_ore' )
         )
         event.recipes.create.crushing(
             [ 
-                Item.of( 'simplesilver:silver_nugget', 18 ),
+                Item.of( 'thesilverage:silver_nugget', 18 ),
                 Item.of( 'create:experience_nugget', 2 ).withChance( 0.75 ),
                 'minecraft:netherrack'
             ],
-            Item.of( 'simplesilver:deepslate_silver_ore' )
+            Item.of( 'thesilverage:deepslate_silver_ore' )
         )
         event.recipes.create.crushing(
             [ 'cm_extended:dirty_silver_dust', Item.of( 'cm_extended:dirty_silver_dust' ).withChance( 0.25 ) ],
@@ -197,7 +197,7 @@ ServerEvents.recipes( event => {
             'create:crushed_raw_lead'
         )
         event.recipes.create.splashing(
-            [ 'cm_extended:lead_dust', Item.of( 'simplesilver:silver_nugget' ).withChance( 0.5 ) ],
+            [ 'cm_extended:lead_dust', Item.of( 'thesilverage:silver_nugget' ).withChance( 0.5 ) ],
             'cm_extended:dirty_lead_dust'
         )
     }

@@ -2,19 +2,19 @@
 ServerEvents.recipes( event => {
     // Simple Silver Fix
     event.replaceOutput( 
-        { type: "minecraft:smelting", output: "simplesilver:silver_nugget" },
-        'simplesilver:silver_nugget',
-        'simplesilver:silver_ingot'
+        { type: "minecraft:smelting", output: "thesilverage:silver_nugget" },
+        'thesilverage:silver_nugget',
+        'thesilverage:silver_ingot'
     )
     event.replaceOutput( 
-        { type: "minecraft:blasting", output: "simplesilver:silver_nugget" },
-        'simplesilver:silver_nugget',
-        'simplesilver:silver_ingot'
+        { type: "minecraft:blasting", output: "thesilverage:silver_nugget" },
+        'thesilverage:silver_nugget',
+        'thesilverage:silver_ingot'
     )
     event.replaceOutput(
-        { input: 'simplesilver:basalt_silver_ore' },
-        'simplesilver:silver_ingot',
-        'simplesilver:silver_nugget'
+        { input: 'thesilverage:basalt_silver_ore' },
+        'thesilverage:silver_ingot',
+        'thesilverage:silver_nugget'
     )
 
     // horseshoes
