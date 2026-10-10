@@ -23,8 +23,7 @@ LootJS.modifiers(event => {
 
 ServerEvents.recipes(event => {
 
-    // Stripped Bamboo Recipes
-    {
+    /* Stripped Bamboo Recipes */ {
         //crafting recipes
         event.recipes.farmersdelight.cutting(
             "minecraft:stripped_bamboo_block",
@@ -82,8 +81,7 @@ ServerEvents.recipes(event => {
         )
     }
 
-    // Hide Recipes
-    {
+    /* Hide Recipes */ {
         //'Raw Hide' -> 'Dry Hide'
         event.smelting('bloodandbeauty:dry_hide', 'bloodandbeauty:raw_hide')
         event.smoking('bloodandbeauty:dry_hide', 'bloodandbeauty:raw_hide')
@@ -139,8 +137,7 @@ ServerEvents.recipes(event => {
         )
     }
 
-    // Cattail Recipes
-    {
+    /* Cattail Recipes */ {
         //cattail_stalk
         event.recipes.farmersdelight.cutting(
             '#forge:cattails',

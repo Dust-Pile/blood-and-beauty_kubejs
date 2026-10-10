@@ -1,3 +1,6 @@
+// ========== DEPRECIATED ========== //
+// TODO: Implement an "As Needed" approach rather than on spawn.
+
 const EFFECTS = {
     'richs_races_wood_elves:wood_elf': {
         'minecraft:regeneration': {

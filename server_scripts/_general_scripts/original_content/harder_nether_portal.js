@@ -1,6 +1,6 @@
 const RECIPE_TIME = 200
 
-// Recipe
+// =========== Recipe ========== //
 ServerEvents.recipes( event => {
     event.shaped(
         Item.of( 'summoningrituals:altar', 1 ),
@@ -40,7 +40,7 @@ ServerEvents.tags( 'item', event => {
     }
 })
 
-// Portal Lighting Rules
+// ========== Portal Lighting Rules ========== //
 ItemEvents.rightClicked( 'bloodandbeauty:hellish_viscera', event => {
     const { player, level, hand } = event
     var target = player.rayTrace( player.blockReach, false )

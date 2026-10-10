@@ -1,3 +1,5 @@
+
+// ========== Lanterns ========== //
 // Data
 var lanterns = [
     "minecraft:waxed_weathered_copper_lantern","minecraft:waxed_exposed_copper_lantern","minecraft:waxed_copper_lantern",
@@ -6,20 +8,20 @@ var lanterns = [
     "upgrade_aquatic:tooth_lantern","suppsquared:brass_lantern","suppsquared:crimson_lantern","suppsquared:copper_lantern",
     "dungeonsdelight:living_lantern","sons_of_sins:ether_lantern","minecraft:waxed_oxidized_copper_lantern"
 ]
-var onTopLanternMap = {}
+//var onTopLanternMap = {}
 for ( var lantern of lanterns ) {
-    var onTopName = 'cts_compats:' + lantern.split(':')[1] + '_on_top'
-    onTopLanternMap[ onTopName ] = lantern
+    // var onTopName = 'cts_compats:' + lantern.split(':')[1] + '_on_top'
+    // onTopLanternMap[ onTopName ] = lantern
 
     BlockEvents.rightClicked( lantern, event => {
         lanternHandler( event, false )
     })
 
-    if ( Item.of( onTopName ) != null ) {
-        BlockEvents.rightClicked( onTopName, event => {
-            lanternHandler( event, true )
-        })
-    }
+    // if ( Item.of( onTopName ) != null ) {
+    //     BlockEvents.rightClicked( onTopName, event => {
+    //         lanternHandler( event, true )
+    //     })
+    // }
 }
 
 /**
@@ -52,6 +54,7 @@ function lanternHandler ( event, isOnTop ) {
     event.cancel()
 }
 
+// ========== Small Ships ========== //
 PlayerEvents.advancement( 'bloodandbeauty:collect_ship', event => {
     const { player } = event
 

@@ -1,3 +1,4 @@
+// Fix custom hoe behaviour to work with more farmland.
 ItemEvents.rightClicked( 'aquaculture:neptunium_hoe', event => {
     const { item, player, hand } = event
     const hit = player.rayTrace( player.blockReach, false )

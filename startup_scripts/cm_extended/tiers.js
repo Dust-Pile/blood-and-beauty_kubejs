@@ -1,4 +1,7 @@
 //priority: 4
+
+// Code for tiers (assisted by Harvest Level Tweaker mod)
+
 const $Tiers = Java.loadClass("net.minecraft.world.item.Tiers")
 const $ForgeTier = Java.loadClass("net.minecraftforge.common.ForgeTier")
 const $BlockTags = Java.loadClass("net.minecraft.tags.BlockTags")

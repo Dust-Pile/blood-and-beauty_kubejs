@@ -1,3 +1,4 @@
+// ========== Fix Wooden Bucket + Create ========== //
 ItemEvents.rightClicked( 'meadow:wooden_bucket', event => {
     const { player, hand } = event
 
@@ -43,6 +44,7 @@ ItemEvents.rightClicked( 'meadow:wooden_bucket', event => {
     event.cancel()
 })
 
+// ========== Recipe Compat ========== //
 ServerEvents.recipes( event => {
 
     // Create compats
