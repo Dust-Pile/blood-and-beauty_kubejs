@@ -1,0 +1,21 @@
+//Prevent Insulation Duping
+
+PlayerEvents.inventoryOpened('cold_sweat:sewing_table',event => {
+    let player = event.getPlayer()
+    let inventory = event.inventoryContainer
+    let slot = inventory.getSlot(1)
+
+    Utils.runAsync(function checkInventory () {
+        if (!(inventory === player.containerMenu)) {
+            return
+        }
+        if (slot.getItem().getId().equals('minecraft:shears')) {
+            inventory.clicked(1, 1, 'quick_move', player)
+        }
+
+        setTimeout(() => {
+            checkInventory()
+        },1)
+        return
+    })
+})

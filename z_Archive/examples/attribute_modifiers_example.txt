@@ -1,0 +1,14 @@
+let $Attributes = Java.loadClass('net.minecraft.world.entity.ai.attributes.Attributes')
+let $AttributeModifier = Java.loadClass('net.minecraft.world.entity.ai.attributes.AttributeModifier')
+let $ISSAttributeRegistry = Java.loadClass('io.redspace.ironsspellbooks.api.registry.AttributeRegistry')
+
+ForgeEvents.onEvent('net.minecraftforge.event.ItemAttributeModifierEvent', event => {
+    if (event.itemStack.id == 'clash:swept_axe' && event.slotType == 'mainhand') {
+        //Inputting a ResourceLocation or a string of an attribute ID also works, but I just use the direct attribute
+        event.addModifier($Attributes.ATTACK_SPEED, new $AttributeModifier(UUID.fromString('8de60aa9-1d4b-459f-b075-48e1c37523ce'), 'Weapon modifier', 1.75, 'multiply_total'))
+    }
+    if (event.itemStack.id == 'irons_spellbooks:graybeard_staff') {
+        // You can also remove modifiers
+        event.removeModifier($ISSAttributeRegistry.MANA_REGEN.get(), new $AttributeModifier(UUID.fromString("667ad88f-901d-4691-b2a2-3664e42026d3"), "Weapon modifier", .25, 'multiply_base'))
+    }
+})

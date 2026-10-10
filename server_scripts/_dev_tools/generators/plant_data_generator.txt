@@ -1,0 +1,107 @@
+var tweaks = {}
+// Set to false to prevent generation
+tweaks.recordData = true
+
+tweaks.DRY_PLANT = 'biomesoplenty:desert_grass'
+tweaks.FROST_PLANT = 'biomesoplenty:dead_grass'
+tweaks.crops = JSON.parse( JsonIO.readString( './kubejs/server_scripts/_dev_tools/generators/plant_data.json' ) )
+
+var seasonTagMap = {
+    'spring':'sereneseasons:spring_crops',
+    'fall':'sereneseasons:autumn_crops',
+    'summer':'sereneseasons:summer_crops',
+    'winter':'sereneseasons:winter_crops',
+    'year': 'sereneseasons:year_round_crops'
+}
+var seasonLists = {
+    'sereneseasons:spring_crops': [],
+    'sereneseasons:autumn_crops': [],
+    'sereneseasons:summer_crops': [],
+    'sereneseasons:winter_crops': [],
+    'sereneseasons:year_round_crops': []
+}
+var seasonListsItem = {
+    'sereneseasons:spring_crops': [],
+    'sereneseasons:autumn_crops': [],
+    'sereneseasons:summer_crops': [],
+    'sereneseasons:winter_crops': [],
+    'sereneseasons:year_round_crops': []
+}
+
+if ( tweaks.recordData ) {
+    tweaks.recordData = false
+
+    global.forEachIn( tweaks.crops, ( data, id ) => {
+        if ( data.seasons != undefined ) {
+            for ( var season of data.seasons ) {
+                if ( seasonTagMap[ season ] == undefined ) {
+                    console.error( 'Season ' + season + ' of ' + id + ' is not valid.' )
+                    continue
+                }
+                seasonLists[ seasonTagMap[ season ] ].push( id )
+                seasonListsItem[ seasonTagMap[ season ] ].push( data.seed )
+            }
+        }
+        if ( data.transforms_cold == null ) {
+            data.transforms_cold = tweaks.FROST_PLANT
+        } else if ( data.transforms_cold == 'none' ) {
+            delete data.transforms_cold
+        }
+        if ( data.transforms_hot == null ) {
+            data.transforms_hot = tweaks.DRY_PLANT
+        } else if ( data.transforms_hot == 'none' ) {
+            delete data.transforms_hot
+        }
+        if ( data.type != null ) {
+            if ( data.type.equals( 'F' ) ) {
+                data.min = fahrenheitToCelcius( data.min )
+                data.max = fahrenheitToCelcius( data.max )
+            }
+            delete data.type
+        }
+        delete data.seasons
+
+        const [ modid, name ] = id.split(':')
+        var PATH = './config/openloader/data/Crop_settings/data/bnb_core/bnbcore/'
+        var thisPath = PATH + modid + '/' + name + '.json'
+        JsonIO.writeAndCreateDirectories( thisPath, data )
+    })
+
+    var blocksString = '{'
+    var firstList = true
+    global.forEachIn( seasonLists, ( blocks, tag ) => {
+        blocksString += firstList ? '' : ','
+        firstList = false
+        blocksString += '\n\t"' + tag + '": ['
+        var first = true
+        for ( var block of blocks ) {
+            blocksString += first ? '' : ','
+            first = false
+            blocksString += '\n\t\t"' + block + '"'
+        }
+        blocksString += '\n\t]'
+    })
+    JsonIO.write( "./kubejs/server_scripts/_dev_tools/generators/grow_seasons_blocks.json", blocksString + '\n}' )
+
+    var itemsString = '{'
+    firstList = true
+    global.forEachIn( seasonListsItem, ( items, tag ) => {
+        itemsString += firstList ? '' : ','
+        firstList = false
+        itemsString += '\n\t"' + tag + '": ['
+        var first = true
+        for ( var item of items ) {
+            itemsString += first ? '' : ','
+            first = false
+            itemsString += '\n\t\t"' + item + '"'
+        }
+        itemsString += '\n\t]'
+    })
+    JsonIO.write( "./kubejs/server_scripts/_dev_tools/generators/grow_seasons_items.json", itemsString + '\n}' )
+    console.log(  )
+}
+
+// Helper Functions
+function fahrenheitToCelcius( num ) {
+    return ( num - 32.0 ) * ( 5 / 9.0 )
+}

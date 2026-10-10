@@ -1,0 +1,37 @@
+let itemWord = '[Item]'
+
+PlayerEvents.chat(event => {
+    let index = event.message.indexOf(itemWord)
+    if (index != -1) {
+        let message = ''+event.getMessage()
+        let newHeader = global.new.text('<'+event.getPlayer().getUsername()+'> '+message.substring(0,index), 'white')
+        let rest = [global.new.text(itemWord, 'green')]
+
+        if (!(message.length <= index + itemWord.length)) {
+            let afterText = message.substring(index+itemWord.length)
+            if (afterText.substring(0,1).equals('{')) {
+                afterText = afterText.substring(1)
+                let closingIndex = global.bracketFindMatch(afterText, '{', '}')
+
+                if (closingIndex != -1) {
+                    rest[0].text = '[' + afterText.substring(0,closingIndex) + ']'
+                    afterText = afterText.substring(closingIndex + 1)
+                }
+            }
+            rest.splice(rest.length, 0, global.new.text(afterText, 'white'))
+        }
+
+        let item = event.getPlayer().getMainHandItem()
+        let showItem = {
+            'id': ''+item.getId(),
+            'count': item.getCount()
+        }
+        if (item.getNbtString() != null) {
+            showItem.tag = ''+item.getNbtString()
+        }
+
+        rest[0].setHoverEvent('show_item',showItem)
+        newHeader.tellraw('@a', rest)
+        event.cancel()
+    }
+})

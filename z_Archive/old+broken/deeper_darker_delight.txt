@@ -1,0 +1,54 @@
+ServerEvents.recipes(event => {
+    //Actually give me what I want
+    event.replaceOutput(
+        { input: 'deeperdarker:gloomy_cactus' },
+        'delightful:cactus_flesh',
+        'deeperdarkerdelight:gloomy_cactus_fruit'
+    )
+
+    //Missing Cooking Recipes
+    event.smelting("deeperdarkerdelight:cut_cooked_sculk_leech", "deeperdarkerdelight:cut_sculk_leech").xp(0.5)
+    event.smelting("deeperdarkerdelight:cut_cooked_stalker_meat", "deeperdarkerdelight:cut_stalker_meat").xp(0.5)
+
+})
+
+LootJS.modifiers(event => {
+    event
+        .addBlockLootModifier('deeperdarker:echo_leaves')
+        .randomChance(0.01)
+        .addLoot('deeperdarkerdelight:echo_fruit')
+
+    event
+        .addEntityLootModifier('deeperdarker:shattered')
+        .addSequenceLoot(
+            LootEntry.of("deeperdarkerdelight:sculk_meat").when((c) => c.randomChance(0.3)),
+            LootEntry.of("deeperdarkerdelight:sculk_meat").when((c) => c.randomChance(0.2))
+        );
+
+    event
+        .addEntityLootModifier('minecraft:warden')
+        .addSequenceLoot(
+            LootEntry.of("deeperdarkerdelight:sculk_meat", 2),
+            LootEntry.of("deeperdarkerdelight:sculk_meat").when((c) => c.randomChance(0.5)),
+            LootEntry.of("deeperdarkerdelight:sculk_meat").when((c) => c.randomChance(0.3)),
+            LootEntry.of("deeperdarkerdelight:sculk_meat").when((c) => c.randomChance(0.2))
+        );
+    
+    event
+        .addLootTableModifier('deeperdarker:entities/sculk_leech')
+        .pool((p) => {
+            p.addLoot('deeperdarkerdelight:sculk_leech')
+        })
+
+    event
+        .addLootTableModifier('deeperdarker:entities/stalker')
+        .pool((p) => {
+            p.addLoot("deeperdarkerdelight:stalker_meat")
+            p.randomChance(0.5)
+                .addLoot("deeperdarkerdelight:stalker_meat")
+        })
+
+    event
+        .addLootTableModifier('deeperdarker:entities/angler_fish')
+        .addLoot('deeperdarkerdelight:angler_fish')
+})

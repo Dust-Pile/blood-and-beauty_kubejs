@@ -1,0 +1,167 @@
+//Make belt lantern work with curios
+if ( global.curio_lantern == undefined ) {
+    global.curio_lantern = {
+        joined: {}
+    }
+}
+
+// Deny accessories menu
+PlayerEvents.inventoryOpened('accessories:accessories_menu', event => {
+    event.player.closeMenu()
+} )
+
+var playerJoined = global.curio_lantern.joined
+PlayerEvents.loggedIn( event => {
+    playerJoined[ event.player.username ] = true
+    // updateLantern( event.player )
+})
+
+// Detect tampering
+global.addListener(
+    'top.theillusivec4.curios.api.event.CurioEquipEvent',
+    'curio_lantern_add',
+    ( event ) => {
+        const { stack, slotContext, entity: player } = event
+
+        Utils.runAsync( () => {
+            if ( !slotContext.identifier().equals('lantern') || !event.entity.isPlayer() || playerJoined[player.username] == undefined ) {
+                return
+            }
+
+            fillLantern( player, stack.item.id )
+        })
+    }
+)
+global.addListener(
+    'top.theillusivec4.curios.api.event.CurioUnequipEvent',
+    'curio_lantern_remove',
+    ( event ) => {
+        const { stack, slotContext, entity: player } = event
+
+        Utils.runAsync( () => {
+            if ( !slotContext.identifier().equals('lantern') || !event.entity.isPlayer() || playerJoined[player.username] == undefined ) {
+                return
+            }
+
+            setTimeout(() => {
+                if ( stack.item.id.equals('minecraft:air') ) {
+                    clearLantern( player )
+                }
+            }, 50);
+                
+            
+            if ( stack.item.id.equals('minecraft:air') ) {
+                clearLantern( player )
+            }
+        })
+    }
+)
+
+// ForgeEvents.onEvent( 'top.theillusivec4.curios.api.event.CurioEquipEvent', event => {
+    
+// })
+
+// ForgeEvents.onEvent( 'top.theillusivec4.curios.api.event.CurioUnequipEvent', event => {
+//     event.entity.accessoriesCapability().getAllEquipped().forEach( accessory => {
+//         accessory.reference().setStack( Item.of( 'minecraft:air' ) )
+//     })
+// })
+
+
+// Operation Handlers
+function clearLantern( player ) {
+    var nbt = player.nbt
+    var accessories = nbt["fabric:attachments"]["accessories:inventory_holder"]
+    if ( accessories.AccessoriesContainers == undefined ) {
+        return
+    }
+
+    var items = accessories.AccessoriesContainers.belt.Items
+    if ( items.size() > 0 ) {
+        items[0] = {}
+        player.setNbt(nbt)
+    }
+}
+function fillLantern( player, item ) {
+    var newItem = {Count:1,Slot:0,id:"minecraft:lantern"}
+    if ( item.equals( "minecraft:soul_lantern" ) ) {
+        newItem = {Count:1,Slot:0,id:"minecraft:soul_lantern"}
+    }
+
+    var nbt = player.nbt
+    var accessories = nbt["fabric:attachments"]["accessories:inventory_holder"]
+    if ( accessories.AccessoriesContainers == undefined ) {
+        return
+    }
+    
+    var items = accessories.AccessoriesContainers.belt.Items
+    if ( items.size() == 0 ) {
+        items.push(newItem)
+        player.setNbt(nbt)
+    }
+}
+function updateLantern ( player ) {
+    var nbt = player.nbt
+    var curios = nbt.ForgeCaps["curios:inventory"].Curios
+
+    var slotItem
+    for ( var curio of curios ) {
+        if ( curio.Identifier.equals("lantern") ) {
+            if ( !curio.StacksHandler.Stacks.Items == undefined ) {
+                slotItem = curio.StacksHandler.Stacks.Items[0].id
+            }
+            break
+        }
+    }
+    if ( slotItem != undefined ) {
+        fillLantern( player, slotItem )
+    } else {
+        clearLantern( player )
+    }
+}
+
+
+// === OUTDATED SOLUTION ( we using forge events now ) === //
+
+// if ( global.curios == undefined ) {
+//     global.curios = {
+//         menuOpen: false
+//     }
+// }
+
+//Allowed Items (MUST BE ALLOWED IN CUIRO SLOT SEPERATELY)
+// ServerEvents.tags('item', event => {
+//     event.add('bloodandbeauty:lanterns', 'minecraft:lantern')
+//     event.add('bloodandbeauty:lanterns', 'minecraft:soul_lantern')
+// })
+
+//Track user inputs and match with inventory
+// PlayerEvents.inventoryOpened( 'curios:curios_container_v2', event => {
+//     const { player, inventoryContainer } = event
+//     let slot = inventoryContainer.getSlot(51)
+//     global.curios.menuOpen = true
+
+//     Utils.runAsync(function resolveLantern () {
+//         var nbt = player.nbt
+//         var item = nbt["fabric:attachments"]["accessories:inventory_holder"].AccessoriesContainers.belt.Items
+//         if ( slot.item.hasTag('bloodandbeauty:lanterns') ) {
+//             if ( item.size() == 0 ) {
+//                 fillLantern( player )
+//             }
+            
+//         } else if ( item.size() > 0 ) {
+//             clearLantern( player )
+//         }
+
+//         if ( global.curios.menuOpen ) {
+//             setTimeout( () => {
+//                 resolveLantern()
+//             }, 25)
+//         }
+//         return
+//     })
+// })
+
+// PlayerEvents.inventoryClosed( 'curios:curios_container_v2', event => {
+//     global.curios.menuOpen = false
+// })
