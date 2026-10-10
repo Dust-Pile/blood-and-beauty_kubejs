@@ -79,7 +79,7 @@ var picks = [
     "deeperdarker:resonarium_pickaxe",
     "deeperdarker:warden_pickaxe",
     "kobolds:kobold_iron_pickaxe",
-    "simplesilver:silver_pickaxe",
+    "thesilverage:silver_pickaxe",
     "vital_herbs:razor_leaf_pickaxe",
     "alexsmobs:ghostly_pickaxe",
     "aquaculture:neptunium_pickaxe",

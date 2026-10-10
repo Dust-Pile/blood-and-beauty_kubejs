@@ -251,9 +251,7 @@ ServerEvents.tags( 'block', event => {
 
     // Ores Fixes
     event.add( "bloodandbeauty:aura_crystal_ores", 'vital_herbs:aura_crystal_ore', 'vital_herbs:deepslate_aura_crystal_ore' )
-    event.add( "bloodandbeauty:silver_ores", 'simplesilver:silver_ore', 
-        'simplesilver:deepslate_silver_ore', 'simplesilver:basalt_silver_ore' )
-    event.add( "c:ores", "#bloodandbeauty:aura_crystal_ores", "#bloodandbeauty:silver_ores" )
+    event.add( "c:ores", "#bloodandbeauty:aura_crystal_ores")
 
 })
 
