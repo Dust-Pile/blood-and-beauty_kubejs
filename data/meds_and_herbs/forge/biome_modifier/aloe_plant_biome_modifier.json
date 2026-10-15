@@ -1,9 +1,6 @@
 {
   "type": "forge:add_features",
   "biomes": [
-    "minecraft:bamboo_jungle",
-    "minecraft:jungle",
-    "minecraft:sparse_jungle",
     "biomesoplenty:floodplain",
     "biomesoplenty:fungal_jungle",
     "biomesoplenty:rainforest",
@@ -14,9 +11,6 @@
     "terralith:amethyst_rainforest",
     "terralith:amethyst_canyon",
     "terralith:skylands_summer",
-    "minecraft:savanna",
-    "minecraft:savanna_plateau",
-    "minecraft:windswept_savanna",
     "biomesoplenty:lush_savanna",
     "biomesoplenty:scrubland",
     "terralith:fractured_savanna",
@@ -28,6 +22,6 @@
     "terralith:savanna_badlands",
     "terralith:shrubland"
   ],
-  "features": "meds_and_herbs:aloe_plant",
+  "features": "meds_and_herbs:aloe",
   "step": "vegetal_decoration"
 }

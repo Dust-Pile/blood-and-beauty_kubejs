@@ -1,13 +1,8 @@
 {
   "type": "forge:add_features",
   "biomes": [
-    "minecraft:sunflower_plains",
-    "minecraft:plains",
     "biomesoplenty:prairie",
     "terralith:highlands",
-    "minecraft:savanna",
-    "minecraft:savanna_plateau",
-    "minecraft:windswept_savanna",
     "biomesoplenty:lush_savanna",
     "biomesoplenty:scrubland",
     "terralith:fractured_savanna",
@@ -18,10 +13,9 @@
     "terralith:hot_shrubland",
     "terralith:savanna_badlands",
     "terralith:shrubland",
-    "minecraft:meadow",
     "terralith:blooming_valley"
 
   ],
-  "features": "meds_and_herbs:cotton_plant",
+  "features": "meds_and_herbs:cotton",
   "step": "vegetal_decoration"
 }

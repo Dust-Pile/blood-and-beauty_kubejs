@@ -1,10 +1,7 @@
 {
   "type": "forge:add_features",
   "biomes": [
-    "minecraft:sunflower_plains",
-    "minecraft:plains",
-    "terralith:highlands",
-    "minecraft:meadow"
+    "terralith:highlands"
   ],
   "features": "meds_and_herbs:wild_chamomile",
   "step": "vegetal_decoration"

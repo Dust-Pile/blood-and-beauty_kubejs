@@ -1,10 +1,6 @@
 {
   "type": "forge:add_features",
   "biomes": [
-    "minecraft:forest",
-    "minecraft:birch_forest",
-    "minecraft:old_growth_birch_forest",
-    "minecraft:grove",
     "biomesoplenty:mediterranean_forest",
     "biomesoplenty:mystic_grove",
     "biomesoplenty:orchard",
@@ -23,8 +19,6 @@
     "terralith:sakura_valley",
     "terralith:shield",
     "terralith:temperate_highlands",
-    "minecraft:sunflower_plains",
-    "minecraft:plains",
     "terralith:highlands",
     "biomesoplenty:prairie"
 

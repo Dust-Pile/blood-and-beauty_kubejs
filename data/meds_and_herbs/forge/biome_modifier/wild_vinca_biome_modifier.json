@@ -1,11 +1,6 @@
 {
   "type": "forge:add_features",
   "biomes": [
-    "minecraft:forest",
-    "minecraft:birch_forest",
-    "minecraft:old_growth_birch_forest",
-    "minecraft:dark_forest",
-    "minecraft:grove",
     "biomesoplenty:mediterranean_forest",
     "biomesoplenty:mystic_grove",
     "biomesoplenty:orchard",
@@ -19,10 +14,7 @@
     "terralith:forested_highlands",
     "terralith:shield",
     "terralith:yosemite_lowlands",
-    "minecraft:sunflower_plains",
-    "minecraft:plains",
     "terralith:highlands",
-    "minecraft:flower_forest",
     "terralith:cloud_forest",
     "terralith:lavender_forest",
     "terralith:lavender_valley",
