@@ -15,7 +15,7 @@ ServerEvents.recipes( event => {
         event.remove({ type: 'minecraft:blasting', output: 'minecraft:netherite_ingot' })
         event.remove({ output: 'minecraft:netherite_upgrade_smithing_template' })
         event.shaped(
-            Item.of( 'minecraft:netherite_upgrade_smithing_template', 1 ),
+            Item.of( 'minecraft:netherite_upgrade_smithing_template', 2 ),
             [
                 'ABA',
                 'ACA',
